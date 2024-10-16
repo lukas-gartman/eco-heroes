@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:bonfire/bonfire.dart';
+
+import 'game.dart';
 
 void main() {
+  // TODO: Load sprite sheets here
+  // i.e. from lib/sprite_sheet/sprite_sheet_player.dart
+  // await SpriteSheetPlayer.load();
   runApp(const EcoHeroes());
 }
 
@@ -11,19 +15,10 @@ class EcoHeroes extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BonfireWidget(
-      playerControllers: [
-        Joystick(
-          directional: JoystickDirectional(),
-        )
-      ],
-      map: WorldMapByTiled(
-        WorldMapReader.fromAsset('eco-heroes.tmj'),
-      ),
-      cameraConfig: CameraConfig(
-        moveOnlyMapArea: true,
-        zoom: 1.75,
-      ),
+    return MaterialApp(
+      title: "Eco Heroes",
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: Game()
     );
   }
 }

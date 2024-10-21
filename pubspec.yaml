@@ -29,3 +29,4 @@ flutter:
     - assets/images/spr_tileset_sunnysideworld_16px.png
     - assets/images/player/knight_run.png
     - assets/images/player/knight_idle.png
+    - assets/images/trash.png

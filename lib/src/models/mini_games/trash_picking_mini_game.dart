@@ -23,7 +23,7 @@ class TrashPickingMiniGame extends MiniGame {
       Vector2 pos = Vector2(10.0 + i, 10);
       Vector2 size = Vector2(2.0, 2.0);
 
-      addGameObject(Trash(pos, size));
+      //addGameObject(Trash(pos, size));
       _totalTrashCount++;
     }
   }

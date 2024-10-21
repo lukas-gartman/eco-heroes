@@ -1,16 +1,31 @@
-import 'dart:ui';
-import '../interactive_object.dart';
+import 'package:bonfire/bonfire.dart';
 
-class Trash extends InteractiveObject {
-  Trash(super.pos, super.size);
-
+class Trash extends GameDecoration with Sensor{
+  final void Function (bool isNearby) onPlayerProximity;
+  
+  Trash(Vector2 position, {required this.onPlayerProximity})
+    : super.withSprite(
+        sprite: Sprite.load('trash.png'), // Load the trash can sprite
+        position: position, // Set the position on the map
+        size: Vector2(32, 32), // Set the size of the trash can
+      );
+ 
   @override
-  void render(Canvas canvas) {
-    // TODO: implement render
-  }
+  void update(double dt){
+    super.update(dt);
 
-  @override
-  void onInteract() {
-    // TODO: implement onInteract
+    if(gameRef.player != null){
+      double distanceToPlayer = this.position.distanceTo(gameRef.player!.position);
+
+      if (distanceToPlayer < 10) {
+          onPlayerProximity(true);
+          
+        }else{
+          onPlayerProximity(false);
+          
+        }
+    }
   }
+  
+
 }

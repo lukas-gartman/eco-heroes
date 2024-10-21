@@ -66,4 +66,5 @@ class TrashPickingMiniGame extends MiniGame {
     }
     return true; // Valid position
   }
+  
 }

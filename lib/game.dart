@@ -19,6 +19,10 @@ class _GameState extends State<Game> {
 
   // A single ValueNotifier to track the overall visibility of the interact button
   ValueNotifier<bool> showInteractButton = ValueNotifier(false);
+  
+  // Store the reference of the closest trash can
+  Trash? closestTrashCan;
+  
   late TrashPickingMiniGame miniGame;
 
   @override
@@ -74,7 +78,19 @@ class _GameState extends State<Game> {
 
                     // Update the overall button visibility
                     showInteractButton.value = proximityStates.any((state) => state);
+                    
+                    // Update closest trash can reference
+                    if (isNearby) {
+                      closestTrashCan = Trash(
+                        position, 
+                        onPlayerProximity: (val) {},
+                        index: index,
+                      );
+                    } else if (closestTrashCan?.index == index) {
+                      closestTrashCan = null; // Reset if player is not near any trash can
+                    }
                   },
+                  index: index, // Pass index to Trash constructor
                 );
               }).toList(),
             ),
@@ -100,6 +116,12 @@ class _GameState extends State<Game> {
   }
 
   void _onInteract() {
-    print('Player interacted with a trash can!');
+    // Call the interact method of the closest trash can, if it exists
+    // 
+    if (closestTrashCan != null) {
+      closestTrashCan!.interact();
+    } else {
+      print('No trash can nearby to interact with.');
+    }
   }
 }

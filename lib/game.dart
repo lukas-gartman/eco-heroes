@@ -16,6 +16,8 @@ class _GameState extends State<Game> {
   final double mapWidth = 320; // Set according to your map's width
   final double mapHeight = 320; // Set according to your map's height
   final int numberOfTrashCans = 5;
+
+  // A single ValueNotifier to track the overall visibility of the interact button
   ValueNotifier<bool> showInteractButton = ValueNotifier(false);
   late TrashPickingMiniGame miniGame;
 
@@ -39,6 +41,9 @@ class _GameState extends State<Game> {
         return Center(child: CircularProgressIndicator());
       }
 
+      // Track the current proximity state of each trash can
+      List<bool> proximityStates = List.filled(numberOfTrashCans, false);
+
       return Material(
         color: Colors.transparent,
         child: Stack(
@@ -58,12 +63,20 @@ class _GameState extends State<Game> {
                 forceTileSize: Vector2.all(tileSize),
               ),
               player: EcoHeroPlayer(Vector2(40, 40)),
-              components: miniGame.trashPositions.map((position) => Trash(
-                position, // Use the generated position
-                onPlayerProximity: (bool isNearby) {
-                  showInteractButton.value = isNearby;
-                },
-              )).toList(),
+              components: miniGame.trashPositions.asMap().entries.map((entry) {
+                int index = entry.key;
+                Vector2 position = entry.value;
+                return Trash(
+                  position, // Use the generated position
+                  onPlayerProximity: (bool isNearby) {
+                    // Update the individual trash can's proximity state
+                    proximityStates[index] = isNearby;
+
+                    // Update the overall button visibility
+                    showInteractButton.value = proximityStates.any((state) => state);
+                  },
+                );
+              }).toList(),
             ),
             ValueListenableBuilder<bool>(
               valueListenable: showInteractButton,
@@ -87,6 +100,6 @@ class _GameState extends State<Game> {
   }
 
   void _onInteract() {
-    print('Player interacted with the trash can!');
+    print('Player interacted with a trash can!');
   }
 }

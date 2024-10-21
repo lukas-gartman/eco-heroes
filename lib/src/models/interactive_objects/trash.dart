@@ -17,7 +17,7 @@ class Trash extends GameDecoration with Sensor{
     if(gameRef.player != null){
       double distanceToPlayer = this.position.distanceTo(gameRef.player!.position);
 
-      if (distanceToPlayer < 10) {
+      if (distanceToPlayer < 40) {
           onPlayerProximity(true);
           
         }else{

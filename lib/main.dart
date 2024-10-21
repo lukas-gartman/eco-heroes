@@ -6,6 +6,7 @@ void main() {
   // TODO: Load sprite sheets here
   // i.e. from lib/sprite_sheet/sprite_sheet_player.dart
   // await SpriteSheetPlayer.load();
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
   runApp(const EcoHeroes());
 }
 

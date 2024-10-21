@@ -41,11 +41,10 @@ class TrashPickingMiniGame extends MiniGame {
     final random = Random();
 
     while (positions.length < numberOfTrashCans) {
-      // Generate a new random position
-      double x = random.nextDouble() * (mapWidth / tileSize);
-      double y = random.nextDouble() * (mapHeight / tileSize);
+      // Generate a new random position within the bounds of the map
+      double x = random.nextDouble() * (mapWidth); // Adjusted to be between 0 and mapWidth (320)
+      double y = random.nextDouble() * (mapHeight); // Adjusted to be between 0 and mapHeight (320)
       Vector2 newPosition = Vector2(x, y);
-      print(newPosition);
 
       // Check if the new position is valid before adding it
       if (_isPositionValid(newPosition, positions)) {

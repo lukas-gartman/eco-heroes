@@ -1,6 +1,10 @@
 import 'dart:math';
+import 'package:flutter/widgets.dart';
+
 import '../interactive_objects/trash.dart';
 import '../mini_game.dart';
+import 'package:bonfire/bonfire.dart';
+import 'package:eco_heroes/src/models/proximity_checker.dart';
 import 'package:bonfire/bonfire.dart';
 
 class TrashPickingMiniGame extends MiniGame {
@@ -9,26 +13,34 @@ class TrashPickingMiniGame extends MiniGame {
   final double mapHeight;
   final double tileSize;
   final double minDistance; // Minimum distance between trash cans
-  late List<Vector2> trashPositions;
+  late List<Trash> trashCans;
+  late ProximityChecker proximityChecker; // Proximity checker instance
+  final double proximityRange = 50; // Define your proximity range
 
   TrashPickingMiniGame({
     required this.numberOfTrashCans,
     required this.mapWidth,
     required this.mapHeight,
     required this.tileSize,
-    this.minDistance = 2, // Default minimum distance
+    this.minDistance = 2,
   });
 
   @override
   void start() {
-    trashPositions = generateRandomPositions();
+    trashCans = generateRandomTrashCans();
+    proximityChecker = ProximityChecker(
+      trashCans: trashCans,
+      proximityRange: proximityRange,
+      showInteractButton: ValueNotifier(false), // Initialize the button state
+    );
     // Here you can add logic to initialize the game, such as spawning trash cans
-    print("Trash picking mini-game started with positions: $trashPositions");
+    print("Trash picking mini-game started with positions: $trashCans");
   }
 
   @override
-  void update() {
-    // TODO: implement update
+  void update(Vector2 playerPosition) {
+    // Call the proximity checker in each update with the player's position
+    proximityChecker.checkProximity(playerPosition);
   }
 
   @override
@@ -36,35 +48,21 @@ class TrashPickingMiniGame extends MiniGame {
     // TODO: implement end
   }
 
-  List<Vector2> generateRandomPositions() {
-    final List<Vector2> positions = [];
+  List<Trash> generateRandomTrashCans() {
+    final List<Trash> trashList = [];
     final random = Random();
 
-    while (positions.length < numberOfTrashCans) {
+    while (trashList.length < numberOfTrashCans) {
       // Generate a new random position within the bounds of the map
       double x = random.nextDouble() * (mapWidth); // Adjusted to be between 0 and mapWidth (320)
       double y = random.nextDouble() * (mapHeight); // Adjusted to be between 0 and mapHeight (320)
-      Vector2 newPosition = Vector2(x, y);
-
-      // Check if the new position is valid before adding it
-      if (_isPositionValid(newPosition, positions)) {
-        positions.add(newPosition); // Add valid position
-      }
-      // If the position is invalid, the loop continues and a new position is generated
+      Vector2 position = Vector2(x, y);
+      
+      Trash newTrashCan = Trash(position);
+      
+      trashList.add(newTrashCan); // Add valid position
     }
 
-    return positions;
+    return trashList;
   }
-
-  // Check if the new position is valid
-  bool _isPositionValid(Vector2 newPosition, List<Vector2> existingPositions) {
-    for (Vector2 position in existingPositions) {
-      // Check the distance to existing positions
-      if ((newPosition - position).length < minDistance) {
-        return false; // Too close to an existing position
-      }
-    }
-    return true; // Valid position
-  }
-  
 }

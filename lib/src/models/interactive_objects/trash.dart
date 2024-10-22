@@ -1,10 +1,9 @@
 import 'package:bonfire/bonfire.dart';
 
-class Trash extends GameDecoration with Sensor {
-  final void Function(bool isNearby) onPlayerProximity;
-  final int index; // Store the index of the trash can
 
-  Trash(Vector2 position, {required this.onPlayerProximity, required this.index})
+class Trash extends GameDecoration with Sensor {
+  
+  Trash(Vector2 position,)
       : super.withSprite(
           sprite: Sprite.load('trash.png'), // Load the trash can sprite
           position: position, // Set the position on the map
@@ -14,21 +13,11 @@ class Trash extends GameDecoration with Sensor {
   @override
   void update(double dt) {
     super.update(dt);
-
-    if (gameRef.player != null) {
-      double distanceToPlayer = this.position.distanceTo(gameRef.player!.position);
-
-      if (distanceToPlayer < 40) {
-        onPlayerProximity(true);
-      } else {
-        onPlayerProximity(false);
-      }
-    }
   }
 
   // Method to handle interaction and print information
   void interact() {
-    print('Player interacted with trash can #$index');
+    
   }
 
   

@@ -1,29 +1,26 @@
 import 'dart:math' as math;
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart'; // Import Scheduler for Ticker
 import 'src/models/players/eco_hero_player.dart';
-import 'src/models/interactive_objects/trash.dart';
-import 'package:eco_heroes/src/models/mini_game.dart'; // Import the abstract class
-import 'package:eco_heroes/src/models/mini_games/trash_picking_mini_game.dart'; // Import the mini-game class
+import 'src/models/mini_games/trash_picking_mini_game.dart'; // Import the mini-game class
+import 'interact_button.dart'; // Import the interact button widget
 
 class Game extends StatefulWidget {
   @override
   _GameState createState() => _GameState();
 }
 
-class _GameState extends State<Game> {
+class _GameState extends State<Game> with TickerProviderStateMixin { // Add TickerProviderStateMixin
   final double tileSize = 16;
   final double mapWidth = 320; // Set according to your map's width
   final double mapHeight = 320; // Set according to your map's height
   final int numberOfTrashCans = 5;
 
-  // A single ValueNotifier to track the overall visibility of the interact button
-  ValueNotifier<bool> showInteractButton = ValueNotifier(false);
-  
-  // Store the reference of the closest trash can
-  Trash? closestTrashCan;
-  
   late TrashPickingMiniGame miniGame;
+  late EcoHeroPlayer player; // Declare player
+  late Ticker _ticker; // Declare a Ticker
+  ValueNotifier<bool> showInteractButton = ValueNotifier(false); // Button visibility
 
   @override
   void initState() {
@@ -35,18 +32,28 @@ class _GameState extends State<Game> {
       tileSize: tileSize,
     );
     miniGame.start(); // Start the mini-game and generate positions
+    player = EcoHeroPlayer(Vector2(40, 40)); // Initialize player
+
+    // Initialize the Ticker
+    _ticker = Ticker((elapsed) {
+      // Call update on the mini-game each frame
+      miniGame.update(player.position); // Update with player's position
+    });
+    _ticker.start(); // Start the ticker
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose(); // Dispose the ticker
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      // Ensure trash positions are generated before accessing them
-      if (miniGame.trashPositions.isEmpty) {
+      if (miniGame.trashCans.isEmpty) {
         return Center(child: CircularProgressIndicator());
       }
-
-      // Track the current proximity state of each trash can
-      List<bool> proximityStates = List.filled(numberOfTrashCans, false);
 
       return Material(
         color: Colors.transparent,
@@ -66,47 +73,16 @@ class _GameState extends State<Game> {
                 WorldMapReader.fromAsset('eco-heroes.tmj'),
                 forceTileSize: Vector2.all(tileSize),
               ),
-              player: EcoHeroPlayer(Vector2(40, 40)),
-              components: miniGame.trashPositions.asMap().entries.map((entry) {
-                int index = entry.key;
-                Vector2 position = entry.value;
-                return Trash(
-                  position, // Use the generated position
-                  onPlayerProximity: (bool isNearby) {
-                    // Update the individual trash can's proximity state
-                    proximityStates[index] = isNearby;
-
-                    // Update the overall button visibility
-                    showInteractButton.value = proximityStates.any((state) => state);
-                    
-                    // Update closest trash can reference
-                    if (isNearby) {
-                      closestTrashCan = Trash(
-                        position, 
-                        onPlayerProximity: (val) {},
-                        index: index,
-                      );
-                    } else if (closestTrashCan?.index == index) {
-                      closestTrashCan = null; // Reset if player is not near any trash can
-                    }
-                  },
-                  index: index, // Pass index to Trash constructor
-                );
-              }).toList(),
+              player: player,
+              components: miniGame.trashCans, // Spawn the trash cans
             ),
             ValueListenableBuilder<bool>(
-              valueListenable: showInteractButton,
-              builder: (context, value, child) {
-                return value
-                    ? Positioned(
-                        bottom: 50,
-                        right: 50,
-                        child: ElevatedButton(
-                          onPressed: _onInteract,
-                          child: Text('Interact'),
-                        ),
-                      )
-                    : SizedBox.shrink();
+              valueListenable: miniGame.proximityChecker.showInteractButton,
+              builder: (context, isVisible, child) {
+                return InteractButton(
+                  isVisible: isVisible,
+                  onPressed: _onInteract,
+                );
               },
             ),
           ],
@@ -115,13 +91,8 @@ class _GameState extends State<Game> {
     });
   }
 
+  // Handle interact button press
   void _onInteract() {
-    // Call the interact method of the closest trash can, if it exists
-    // 
-    if (closestTrashCan != null) {
-      closestTrashCan!.interact();
-    } else {
-      print('No trash can nearby to interact with.');
-    }
+    // Here you can add interaction logic if needed
   }
 }

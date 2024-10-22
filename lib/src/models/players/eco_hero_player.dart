@@ -9,6 +9,11 @@ class EcoHeroPlayer extends SimplePlayer {
           speed: 200,
           animation: PlayerSpriteSheet.simpleDirectionAnimation,
       );
+
+   Vector2 getPosition(){
+      print(position);
+      return position;
+   }  
 }
 
 class PlayerSpriteSheet {

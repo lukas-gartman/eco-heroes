@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart'; // Import Scheduler for Ticker
+import 'src/models/interactive_objects/trash.dart';
 import 'src/models/players/eco_hero_player.dart';
 import 'src/models/mini_games/trash_picking_mini_game.dart'; // Import the mini-game class
 import 'interact_button.dart'; // Import the interact button widget
@@ -93,6 +94,16 @@ class _GameState extends State<Game> with TickerProviderStateMixin { // Add Tick
 
   // Handle interact button press
   void _onInteract() {
-    // Here you can add interaction logic if needed
+    // Call the interact method on the nearby trash can
+    // Call the interact method on the nearby trash can
+  if (miniGame.proximityChecker.nearbyTrashCan != null) {
+    Trash trashCanToRemove = miniGame.proximityChecker.nearbyTrashCan!;
+    trashCanToRemove.interact(); // Call interact on the specific trash can
+    miniGame.removeTrashCan(trashCanToRemove); // Remove the trash can from the game and the list
+    print('Removed trash can at position: ${trashCanToRemove.position}'); // Log removal
+  } else {
+    print('No trash can nearby to interact with.');
+  }
+    
   }
 }

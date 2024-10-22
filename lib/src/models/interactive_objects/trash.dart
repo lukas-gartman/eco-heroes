@@ -17,8 +17,10 @@ class Trash extends GameDecoration with Sensor {
 
   // Method to handle interaction and print information
   void interact() {
-    
+    print(this);
+    removeFromParent();
   }
+
 
   
 }

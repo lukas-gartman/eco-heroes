@@ -15,14 +15,14 @@ class TrashPickingMiniGame extends MiniGame {
   final double minDistance; // Minimum distance between trash cans
   late List<Trash> trashCans;
   late ProximityChecker proximityChecker; // Proximity checker instance
-  final double proximityRange = 50; // Define your proximity range
+  final double proximityRange = 40; // Define your proximity range
 
   TrashPickingMiniGame({
     required this.numberOfTrashCans,
     required this.mapWidth,
     required this.mapHeight,
     required this.tileSize,
-    this.minDistance = 2,
+    this.minDistance = 2, // Check for minDistance between trashcans. currently not used.
   });
 
   @override
@@ -65,4 +65,11 @@ class TrashPickingMiniGame extends MiniGame {
 
     return trashList;
   }
+
+  void removeTrashCan(Trash trashCan) {
+    trashCan.interact(); // Remove the graphical instance
+    trashCans.remove(trashCan); // Remove from the list
+  }
+
+  
 }

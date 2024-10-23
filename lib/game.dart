@@ -6,6 +6,7 @@ import 'src/models/interactive_objects/trash.dart';
 import 'src/models/players/eco_hero_player.dart';
 import 'src/models/mini_games/trash_picking_mini_game.dart'; // Import the mini-game class
 import 'interact_button.dart'; // Import the interact button widget
+import 'src/models/dialog.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _GameState extends State<Game> with TickerProviderStateMixin { // Add Tick
   @override
   void initState() {
     super.initState();
+    _showIntroDialog(); // kommentera ut för att slippa introdialog
     miniGame = TrashPickingMiniGame(
       numberOfTrashCans: numberOfTrashCans,
       mapWidth: mapWidth,
@@ -41,6 +43,11 @@ class _GameState extends State<Game> with TickerProviderStateMixin { // Add Tick
       miniGame.update(player.position); // Update with player's position
     });
     _ticker.start(); // Start the ticker
+  }
+
+    Future<void> _showIntroDialog() async {
+    await Future.delayed(Duration(milliseconds: 500)); // Small delay to ensure the screen loads
+    await GameDialog.introDialog(context); // Show the dialog
   }
 
   @override

@@ -8,21 +8,16 @@ import 'package:bonfire/bonfire.dart';
 import 'package:eco_heroes/src/models/proximity_checker.dart';
 
 class TrashPickingMiniGame extends MiniGame {
-  final int numberOfTrashCans;
-  final double mapWidth;
-  final double mapHeight;
-  final double tileSize;
+  static const double tileSize = 16;
+  static const double mapWidth = 320;
+  static const double mapHeight = 320;
+  static const int numberOfTrashCans = 5;
 
   late List<Trash> trashCans;
   final double proximityRange = 40;
   bool isCompleted = false;
 
-  TrashPickingMiniGame(super.onCompleted, {
-    required this.numberOfTrashCans,
-    required this.mapWidth,
-    required this.mapHeight,
-    required this.tileSize,
-  });
+  TrashPickingMiniGame(super.onCompleted);
 
   @override
   List<GameObject> get objects => trashCans;
@@ -32,7 +27,7 @@ class TrashPickingMiniGame extends MiniGame {
 
   @override
   void start() {
-    trashCans = generateRandomTrashCans();
+    trashCans = generateRandomTrashCans(numberOfTrashCans);
     super.proximityChecker = ProximityChecker(
       objects: trashCans,
       proximityRange: proximityRange,
@@ -52,7 +47,7 @@ class TrashPickingMiniGame extends MiniGame {
     }
   }
 
-  List<Trash> generateRandomTrashCans() {
+  List<Trash> generateRandomTrashCans(int numberOfTrashCans) {
     final List<Trash> trashList = [];
     final random = Random();
 

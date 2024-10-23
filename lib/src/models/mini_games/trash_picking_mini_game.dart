@@ -1,36 +1,75 @@
+import 'dart:math';
+import 'package:flutter/widgets.dart';
+
 import '../interactive_objects/trash.dart';
 import '../mini_game.dart';
-
+import 'package:bonfire/bonfire.dart';
+import 'package:eco_heroes/src/models/proximity_checker.dart';
 import 'package:bonfire/bonfire.dart';
 
 class TrashPickingMiniGame extends MiniGame {
-  int _trashPickedUpCount = 0;
-  int _totalTrashCount = 0;
+  final int numberOfTrashCans;
+  final double mapWidth;
+  final double mapHeight;
+  final double tileSize;
+  final double minDistance; // Minimum distance between trash cans
+  late List<Trash> trashCans;
+  late ProximityChecker proximityChecker; // Proximity checker instance
+  final double proximityRange = 40; // Define your proximity range
 
-  @override
-  void render(Canvas canvas) {
-    // TODO: implement render
-  }
-
-  @override
-  void update(double dt) {
-    // TODO: implement update
-  }
+  TrashPickingMiniGame({
+    required this.numberOfTrashCans,
+    required this.mapWidth,
+    required this.mapHeight,
+    required this.tileSize,
+    this.minDistance = 2, // Check for minDistance between trashcans. currently not used.
+  });
 
   @override
   void start() {
-    for (int i = 0; i < 10; i++) {
-      Vector2 pos = Vector2(10.0 + i, 10);
-      Vector2 size = Vector2(2.0, 2.0);
-
-      addGameObject(Trash(pos, size));
-      _totalTrashCount++;
-    }
+    trashCans = generateRandomTrashCans();
+    proximityChecker = ProximityChecker(
+      trashCans: trashCans,
+      proximityRange: proximityRange,
+      showInteractButton: ValueNotifier(false), // Initialize the button state
+    );
+    // Here you can add logic to initialize the game, such as spawning trash cans
+    print("Trash picking mini-game started with positions: $trashCans");
   }
 
   @override
-  bool isComplete() {
-    // Check if all trash has been picked up or time has run out
-    return _trashPickedUpCount >= _totalTrashCount;
+  void update(Vector2 playerPosition) {
+    // Call the proximity checker in each update with the player's position
+    proximityChecker.checkProximity(playerPosition);
   }
+
+  @override
+  void end() {
+    // TODO: implement end
+  }
+
+  List<Trash> generateRandomTrashCans() {
+    final List<Trash> trashList = [];
+    final random = Random();
+
+    while (trashList.length < numberOfTrashCans) {
+      // Generate a new random position within the bounds of the map
+      double x = random.nextDouble() * (mapWidth); // Adjusted to be between 0 and mapWidth (320)
+      double y = random.nextDouble() * (mapHeight); // Adjusted to be between 0 and mapHeight (320)
+      Vector2 position = Vector2(x, y);
+      
+      Trash newTrashCan = Trash(position);
+      
+      trashList.add(newTrashCan); // Add valid position
+    }
+
+    return trashList;
+  }
+
+  void removeTrashCan(Trash trashCan) {
+    trashCan.interact(); // Remove the graphical instance
+    trashCans.remove(trashCan); // Remove from the list
+  }
+
+  
 }

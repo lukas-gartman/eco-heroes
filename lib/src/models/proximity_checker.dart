@@ -1,31 +1,25 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:eco_heroes/src/models/interactive_object.dart';
 import 'package:flutter/material.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash.dart';
 
-class ProximityChecker {
-  final List<Trash> trashCans; // List of trash cans
-  final double proximityRange; // The range within which to show the interact button
-  final ValueNotifier<bool> showInteractButton; // To notify about button visibility
-  Trash? nearbyTrashCan; // To store the currently nearby trash can instance
+class ProximityChecker<T extends InteractiveObject> {
+  final List<T> objects;
+  final double proximityRange;
+  final ValueNotifier<bool> inProximity;
+  T? nearbyObject;
 
-  ProximityChecker({
-    required this.trashCans,
-    required this.proximityRange,
-    required this.showInteractButton,
-  });
+  ProximityChecker({required this.objects, required this.proximityRange, required this.inProximity});
 
   void checkProximity(Vector2 playerPosition) {
-    nearbyTrashCan = null; // Reset before checking
+    nearbyObject = null;
 
-    for (Trash trashCan in trashCans) {
-      double distance = playerPosition.distanceTo(trashCan.position);
+    for (T obj in objects) {
+      double distance = playerPosition.distanceTo(obj.position);
       if (distance < proximityRange) {
-        nearbyTrashCan = trashCan; // Set the nearby trash can
-        
+        nearbyObject = obj;
       }
     }
 
-    // Update the button visibility
-    showInteractButton.value = nearbyTrashCan != null;
+    inProximity.value = nearbyObject != null;
   }
 }

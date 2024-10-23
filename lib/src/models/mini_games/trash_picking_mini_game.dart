@@ -15,6 +15,7 @@ class TrashPickingMiniGame extends MiniGame {
 
   late List<Trash> trashCans;
   final double proximityRange = 40;
+  bool isStart = true;
   bool isCompleted = false;
 
   TrashPickingMiniGame(super.onCompleted);
@@ -39,6 +40,11 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   void update(BuildContext context, Vector2 playerPosition) {
     if (isCompleted) return;
+    if (isStart) {
+      isStart = false;
+      TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
+      return;
+    }
     
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
     if (trashCans.isEmpty) {

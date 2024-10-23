@@ -4,17 +4,20 @@ import 'package:eco_heroes/src/models/mini_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'game_manager.dart';
+import 'src/models/cut_scene.dart';
 import 'src/models/players/eco_hero_player.dart';
 import 'interact_button.dart';
-import 'src/models/dialog.dart';
 
 class Game extends StatefulWidget {
+  const Game({super.key});
+
   @override
   GameState createState() => GameState();
 }
 
 class GameState extends State<Game> with TickerProviderStateMixin {
   late GameManager gameManager;
+  CutScene? cutScene;
   late MiniGame miniGame;
   late EcoHeroPlayer player;
   late Ticker _ticker;
@@ -23,11 +26,11 @@ class GameState extends State<Game> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _showIntroDialog(); // kommentera ut för att slippa introdialog
 
     gameManager = GameManager(onMiniGameSwitch);
     gameManager.init();
-    miniGame = gameManager.miniGame;
+    miniGame = gameManager.gameSegment.miniGame;
+    cutScene = gameManager.gameSegment.cutScene;
     miniGame.start();
     player = EcoHeroPlayer(Vector2(40, 40));
 
@@ -35,11 +38,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
       miniGame.update(context, player.position); // Update with player's position
     });
     _ticker.start();
-  }
-
-  Future<void> _showIntroDialog() async {
-    await Future.delayed(const Duration(milliseconds: 500)); // Small delay to ensure the screen loads
-    await GameDialog.introDialog(context); // Show the dialog
   }
 
   @override
@@ -60,12 +58,17 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               playerControllers: [
                 Joystick(directional: JoystickDirectional()),
               ],
-              cameraConfig: CameraConfig(
-                zoom: 2,
-              ),
+              cameraConfig: CameraConfig(zoom: 2),
               map: miniGame.map,
               player: player,
               components: miniGame.objects,
+              onReady: (value) => {
+                if (cutScene != null) ...[
+                  showDialog(context: context, builder: (BuildContext context) {
+                    return Dialog.fullscreen(child: cutScene!);
+                  }),
+                ],
+              },
             ),
             ValueListenableBuilder<bool>(
               valueListenable: miniGame.proximityChecker.inProximity,
@@ -84,7 +87,8 @@ class GameState extends State<Game> with TickerProviderStateMixin {
 
   void onMiniGameSwitch() {
     setState(() {
-      miniGame = gameManager.miniGame;
+      cutScene = gameManager.gameSegment.cutScene;
+      miniGame = gameManager.gameSegment.miniGame;
       miniGame.start();
       player.position = Vector2(40, 40);
     });

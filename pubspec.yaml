@@ -31,3 +31,4 @@ flutter:
     - assets/images/player/knight_run.png
     - assets/images/player/knight_idle.png
     - assets/images/trash.png
+    - assets/images/player/player_idle_right.png

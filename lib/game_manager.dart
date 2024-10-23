@@ -15,15 +15,14 @@ class GameManager {
     const double tileSize = 16;
     const double mapWidth = 320;
     const double mapHeight = 320;
-    const int numberOfTrashCans = 1;
+    const int numberOfTrashCans = 5;
 
     _miniGames = [
       TrashPickingMiniGame(onMiniGameCompleted, numberOfTrashCans: numberOfTrashCans, mapWidth: mapWidth, mapHeight: mapHeight, tileSize: tileSize),
-      TrashPickingMiniGame(onMiniGameCompleted, numberOfTrashCans: numberOfTrashCans, mapWidth: mapWidth, mapHeight: mapHeight, tileSize: tileSize),
+      TrashPickingMiniGame(onMiniGameCompleted, numberOfTrashCans: numberOfTrashCans + 3, mapWidth: mapWidth, mapHeight: mapHeight, tileSize: tileSize),
     ];
 
     _currentMiniGame = _miniGames.removeAt(0);
-    // _currentMiniGame.start();
   }
   
   void onMiniGameCompleted() {
@@ -33,7 +32,6 @@ class GameManager {
       onMiniGameSwitch();
     } else {
       print('All mini games completed.');
-      return;
     }
   }
 }

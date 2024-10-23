@@ -66,7 +66,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               map: miniGame.map,
               player: player,
               components: miniGame.objects,
-              debugMode: true,
             ),
             ValueListenableBuilder<bool>(
               valueListenable: miniGame.proximityChecker.inProximity,

@@ -1,12 +1,15 @@
+import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 
-import 'game.dart';
+import 'app_routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   // TODO: Load sprite sheets here
   // i.e. from lib/sprite_sheet/sprite_sheet_player.dart
   // await SpriteSheetPlayer.load();
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  await Flame.device.setLandscape();
+  await Flame.device.fullScreen();
   runApp(const EcoHeroes());
 }
 
@@ -18,7 +21,8 @@ class EcoHeroes extends StatelessWidget {
     return MaterialApp(
       title: "Eco Heroes",
       theme: ThemeData(primarySwatch: Colors.green),
-      home: Game()
+      routes: AppRoutes.routes,
+      // home: Game()
     );
   }
 }

@@ -1,29 +1,37 @@
 import 'package:eco_heroes/src/models/mini_games/trash_picking_mini_game.dart';
 
+import 'src/models/cut_scene.dart';
+import 'src/models/dialog.dart';
 import 'src/models/mini_game.dart';
+
+class GameSegment {
+  final CutScene? cutScene;
+  final MiniGame miniGame;
+
+  GameSegment({this.cutScene, required this.miniGame});
+}
 
 class GameManager {
   final void Function() onMiniGameSwitch;
-  List<MiniGame> _miniGames = [];
-  late MiniGame _currentMiniGame;
+  List<GameSegment> _gameSegments = [];
+  late GameSegment _currentGameSegment;
+  GameSegment get gameSegment => _currentGameSegment;
 
   GameManager(this.onMiniGameSwitch);
 
-  MiniGame get miniGame => _currentMiniGame;
-
   void init() {
-    _miniGames = [
-      TrashPickingMiniGame(onMiniGameCompleted),
-      TrashPickingMiniGame(onMiniGameCompleted),
+    _gameSegments = [
+      GameSegment(cutScene: CutScene(opacity: 75, dialog: GameDialog.introDialog()), miniGame: TrashPickingMiniGame(onMiniGameCompleted)),
+      GameSegment(cutScene: CutScene(opacity: 0, dialog: GameDialog.introDialog()), miniGame: TrashPickingMiniGame(onMiniGameCompleted)),
     ];
 
-    _currentMiniGame = _miniGames.removeAt(0);
+    _currentGameSegment = _gameSegments.removeAt(0);
   }
   
   void onMiniGameCompleted() {
-    print('Mini game completed: $_currentMiniGame');
-    if (_miniGames.isNotEmpty) {
-      _currentMiniGame = _miniGames.removeAt(0);
+    print('Mini game completed: $_currentGameSegment');
+    if (_gameSegments.isNotEmpty) {
+      _currentGameSegment = _gameSegments.removeAt(0);
       onMiniGameSwitch();
     } else {
       print('All mini games completed.');

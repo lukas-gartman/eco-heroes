@@ -32,3 +32,6 @@ flutter:
     - assets/images/player/knight_idle.png
     - assets/images/trash.png
     - assets/images/player/player_idle_right.png
+
+    - assets/images/cut_scenes/dirty-city.jpg
+    - assets/images/cut_scenes/clean-city.jpg

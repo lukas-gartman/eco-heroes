@@ -33,11 +33,12 @@ class TrashPickingMiniGame extends MiniGame {
 
   @override
   void start() {
-    trashCans = generateRandomTrashCans(numberOfTrashCans);
-    squirrels = generateNPCs();
+    squirrels = generateNPCs(); //Currently only creates one squirrel
+    trashCans = generateRandomTrashCans(numberOfTrashCans); 
     
-    combinedList.addAll(trashCans);
     combinedList.addAll(squirrels);
+    combinedList.addAll(trashCans);
+    
     //Create a combined list with trashcans and NPCs
     super.proximityChecker = ProximityChecker(
       objects: combinedList,
@@ -73,8 +74,26 @@ class TrashPickingMiniGame extends MiniGame {
       double y = random.nextDouble() * (mapHeight); // Adjusted to be between 0 and mapHeight (320)
       Vector2 position = Vector2(x, y);
       
-      Trash newTrashCan = Trash(position: position);
-      trashList.add(newTrashCan);
+      // Check if this new position is far enough from existing trash cans
+      bool isValidPosition = true;
+
+      for (Trash existingTrash in trashList) {
+        if (position.distanceTo(existingTrash.position) < proximityRange+10) { //Added +10 so that there should always be some sort of space between trash.
+          isValidPosition = false;
+          break; // No need to check further if the new position is too close
+        }
+      }
+
+      for (SquirrelNPC existingSquirrels in squirrels) {
+        if(position.distanceTo(existingSquirrels.position) < proximityRange+10){
+          isValidPosition = false;
+          break; // No need to check further if the new position is too close
+        }
+      }
+
+      if (isValidPosition) {
+        trashList.add(Trash(position: position));
+      }
     }
 
     return trashList;
@@ -97,6 +116,7 @@ class TrashPickingMiniGame extends MiniGame {
       object.interact();
       trashCans.remove(object);
       collectedTrash++;
+      proximityChecker.removeObject(object);
       print('Removed trash can at position: ${object.position}');
     }
     if (object is SquirrelNPC) {

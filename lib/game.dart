@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:eco_heroes/src/models/interactive_object.dart';
+import 'package:eco_heroes/src/models/interactive_objects/trash.dart';
 import 'package:eco_heroes/src/models/mini_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -75,7 +76,8 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               builder: (context, isVisible, child) {
                 return InteractButton(
                   isVisible: isVisible,
-                  onPressed: _onInteract,
+                  onPressed: _onInteract, 
+                  currentObject: miniGame.proximityChecker.getObject(),
                 );
               },
             ),

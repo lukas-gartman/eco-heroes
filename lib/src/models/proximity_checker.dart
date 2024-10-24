@@ -22,4 +22,13 @@ class ProximityChecker<T extends InteractiveObject> {
 
     inProximity.value = nearbyObject != null;
   }
+
+  void removeObject(T obj){
+    objects.remove(obj);
+  }
+
+  T? getObject(){
+    return nearbyObject;
+  }
+
 }

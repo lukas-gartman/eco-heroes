@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 class ProximityChecker<T extends InteractiveObject> {
   final List<T> objects;
   final double proximityRange;
-  final ValueNotifier<bool> inProximity;
-  T? nearbyObject;
+  final ValueNotifier<T?> inProximityWith;
 
-  ProximityChecker({required this.objects, required this.proximityRange, required this.inProximity});
+  ProximityChecker({required this.objects, required this.proximityRange, required this.inProximityWith});
 
   void checkProximity(Vector2 playerPosition) {
-    nearbyObject = null;
+    inProximityWith.value = null;
 
     for (T obj in objects) {
       double distance = playerPosition.distanceTo(obj.position);
       if (distance < proximityRange) {
-        nearbyObject = obj;
+        inProximityWith.value = obj;
       }
     }
+  }
 
-    inProximity.value = nearbyObject != null;
+  void removeObject(T obj) {
+    objects.remove(obj);
   }
 }

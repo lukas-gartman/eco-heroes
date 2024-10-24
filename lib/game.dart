@@ -21,7 +21,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
   late MiniGame miniGame;
   late EcoHeroPlayer player;
   late Ticker _ticker;
-  ValueNotifier<bool> showInteractButton = ValueNotifier(false); // Button visibility
 
   @override
   void initState() {
@@ -70,13 +69,17 @@ class GameState extends State<Game> with TickerProviderStateMixin {
                 ],
               },
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: miniGame.proximityChecker.inProximity,
-              builder: (context, isVisible, child) {
-                return InteractButton(
-                  isVisible: isVisible,
-                  onPressed: _onInteract,
-                );
+            ValueListenableBuilder<InteractiveObject?>(
+              valueListenable: miniGame.proximityChecker.inProximityWith,
+              builder: (context, nearbyObject, _) {
+                if (nearbyObject != null) {
+                  return InteractButton(
+                    interactionType: nearbyObject.interactionType,
+                    onPressed: _onInteract, 
+                  );
+                }
+
+                return const SizedBox.shrink();
               },
             ),
           ],
@@ -96,11 +99,10 @@ class GameState extends State<Game> with TickerProviderStateMixin {
 
   // Handle interact button press
   void _onInteract() {
-    if (miniGame.proximityChecker.nearbyObject != null) {
-      InteractiveObject objectToInteractWith = miniGame.proximityChecker.nearbyObject!;
-      objectToInteractWith.interact();
-      miniGame.removeObject(objectToInteractWith);
-      print('Removed trash can at position: ${objectToInteractWith.position}');
+    
+    if (miniGame.proximityChecker.inProximityWith.value != null) {
+      InteractiveObject objectToInteractWith = miniGame.proximityChecker.inProximityWith.value!;
+      miniGame.interactWithObject(context, objectToInteractWith);
     } else {
       print('No trash can nearby to interact with.');
     }  

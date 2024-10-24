@@ -12,8 +12,14 @@ class GameDialog {
 
   static List<Say> trashPickingIntroDialog() {
     return [
-      _speak(text: "Help us Eco Hero, our park has been trashed by the Eco Villain.", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
-      _speak(text: "Pick up all the trash and and put it in the trash can.", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "Help us Eco Hero, our park has been trashed by the Eco Villain.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "Pick up all the trash and and put it in the trash can.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ];
+  }
+
+  static List<Say> trashPickingSquirrelInteract(int trashLeft) {
+    return [
+      _speak(text: "Thanks for helping us Eco Hero! You have $trashLeft trash to pick up before you can start sorting!", isHero: false, imagepath: 'assets/images/squirrel.png')
     ];
   }
 

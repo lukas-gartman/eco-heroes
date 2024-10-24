@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:eco_heroes/src/models/interactive_object.dart';
+import 'package:eco_heroes/src/models/interactive_objects/squirrelNPC.dart';
 import 'package:flutter/widgets.dart';
 
 import '../dialog.dart';
@@ -14,14 +16,17 @@ class TrashPickingMiniGame extends MiniGame {
   static const int numberOfTrashCans = 5;
 
   late List<Trash> trashCans;
+  late List<SquirrelNPC> squirrels;
+  List<InteractiveObject> combinedList = [];
   final double proximityRange = 40;
+  int collectedTrash = 0;
   bool isStart = true;
   bool isCompleted = false;
 
   TrashPickingMiniGame(super.onCompleted);
 
   @override
-  List<GameObject> get objects => trashCans;
+  List<GameObject> get objects => combinedList;//Changed to combinedList from trashCans
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('eco-heroes.tmj'));
@@ -29,8 +34,13 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   void start() {
     trashCans = generateRandomTrashCans(numberOfTrashCans);
+    squirrels = generateNPCs();
+    
+    combinedList.addAll(trashCans);
+    combinedList.addAll(squirrels);
+    //Create a combined list with trashcans and NPCs
     super.proximityChecker = ProximityChecker(
-      objects: trashCans,
+      objects: combinedList,
       proximityRange: proximityRange,
       inProximity: ValueNotifier(false), // Initialize the button state
     );
@@ -70,10 +80,29 @@ class TrashPickingMiniGame extends MiniGame {
     return trashList;
   }
 
+  List<SquirrelNPC> generateNPCs(){
+    final List<SquirrelNPC> squirrelList = [];
+    SquirrelNPC squirrel = SquirrelNPC(position: Vector2(100, 100)); //Position of the Squirrel
+    squirrelList.add(squirrel);
+    return squirrelList;
+  }
+
+
+  //Edit this
   @override
-  void removeObject(GameObject object) {
+  void interactObject(BuildContext context, GameObject object)  {
+    
+
     if (object is Trash) {
+      object.interact();
       trashCans.remove(object);
+      collectedTrash++;
+      print('Removed trash can at position: ${object.position}');
+    }
+    if (object is SquirrelNPC) {
+      object.interact();
+      TalkDialog.show(context, GameDialog.trashPickingSquirrelInteract(numberOfTrashCans - collectedTrash));
+      //print("Hello, im a squirrel. Please help us clean up!");
     }
   }
 }

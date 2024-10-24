@@ -96,11 +96,10 @@ class GameState extends State<Game> with TickerProviderStateMixin {
 
   // Handle interact button press
   void _onInteract() {
+    
     if (miniGame.proximityChecker.nearbyObject != null) {
       InteractiveObject objectToInteractWith = miniGame.proximityChecker.nearbyObject!;
-      objectToInteractWith.interact();
-      miniGame.removeObject(objectToInteractWith);
-      print('Removed trash can at position: ${objectToInteractWith.position}');
+      miniGame.interactObject(context, objectToInteractWith);
     } else {
       print('No trash can nearby to interact with.');
     }  

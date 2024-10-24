@@ -11,8 +11,8 @@ import '../proximity_checker.dart';
 
 class TrashPickingMiniGame extends MiniGame {
   static const double tileSize = 16;
-  static const double mapWidth = 320;
-  static const double mapHeight = 320;
+  static const double mapWidth = 640;
+  static const double mapHeight = 640;
   static const int numberOfTrashCans = 5;
 
   late List<Trash> trashCans;
@@ -29,7 +29,7 @@ class TrashPickingMiniGame extends MiniGame {
   List<GameObject> get objects => combinedList;//Changed to combinedList from trashCans
 
   @override
-  GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('eco-heroes.tmj'), forceTileSize: Vector2.all(tileSize));
+  GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
 
   @override
   void start() {

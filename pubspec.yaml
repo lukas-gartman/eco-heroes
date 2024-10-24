@@ -37,3 +37,8 @@ flutter:
 
     - assets/images/cut_scenes/dirty-city.jpg
     - assets/images/cut_scenes/clean-city.jpg
+
+    - assets/images/maps/trash_picking/ParkArea.tmj
+    - assets/images/maps/trash_picking/tileset.png
+    - assets/images/maps/trash_picking/OutdoorCamping.gif
+    - assets/images/maps/trash_picking/City Prop Tileset update 2.png

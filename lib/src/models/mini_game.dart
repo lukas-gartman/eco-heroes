@@ -13,5 +13,5 @@ abstract class MiniGame {
 
   void start();
   void update(BuildContext context, Vector2 playerPosition);
-  void interactObject(BuildContext context, GameObject object);
+  void interactWithObject(BuildContext context, GameObject object);
 }

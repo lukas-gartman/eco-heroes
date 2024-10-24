@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:eco_heroes/src/models/interactive_object.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash.dart';
 import 'package:eco_heroes/src/models/mini_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -22,7 +21,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
   late MiniGame miniGame;
   late EcoHeroPlayer player;
   late Ticker _ticker;
-  ValueNotifier<bool> showInteractButton = ValueNotifier(false); // Button visibility
 
   @override
   void initState() {
@@ -71,14 +69,17 @@ class GameState extends State<Game> with TickerProviderStateMixin {
                 ],
               },
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: miniGame.proximityChecker.inProximity,
-              builder: (context, isVisible, child) {
-                return InteractButton(
-                  isVisible: isVisible,
-                  onPressed: _onInteract, 
-                  currentObject: miniGame.proximityChecker.getObject(),
-                );
+            ValueListenableBuilder<InteractiveObject?>(
+              valueListenable: miniGame.proximityChecker.inProximityWith,
+              builder: (context, nearbyObject, _) {
+                if (nearbyObject != null) {
+                  return InteractButton(
+                    interactionType: nearbyObject.interactionType,
+                    onPressed: _onInteract, 
+                  );
+                }
+
+                return const SizedBox.shrink();
               },
             ),
           ],
@@ -99,9 +100,9 @@ class GameState extends State<Game> with TickerProviderStateMixin {
   // Handle interact button press
   void _onInteract() {
     
-    if (miniGame.proximityChecker.nearbyObject != null) {
-      InteractiveObject objectToInteractWith = miniGame.proximityChecker.nearbyObject!;
-      miniGame.interactObject(context, objectToInteractWith);
+    if (miniGame.proximityChecker.inProximityWith.value != null) {
+      InteractiveObject objectToInteractWith = miniGame.proximityChecker.inProximityWith.value!;
+      miniGame.interactWithObject(context, objectToInteractWith);
     } else {
       print('No trash can nearby to interact with.');
     }  

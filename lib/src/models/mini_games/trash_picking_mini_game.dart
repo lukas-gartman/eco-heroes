@@ -1,13 +1,13 @@
 import 'dart:math';
-import 'package:eco_heroes/src/models/interactive_object.dart';
-import 'package:eco_heroes/src/models/interactive_objects/squirrelNPC.dart';
 import 'package:flutter/widgets.dart';
+import 'package:bonfire/bonfire.dart';
 
 import '../dialog.dart';
 import '../interactive_objects/trash.dart';
+import '../interactive_object.dart';
+import '../interactive_objects/squirrel_npc.dart';
 import '../mini_game.dart';
-import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/proximity_checker.dart';
+import '../proximity_checker.dart';
 
 class TrashPickingMiniGame extends MiniGame {
   static const double tileSize = 16;
@@ -43,7 +43,7 @@ class TrashPickingMiniGame extends MiniGame {
     super.proximityChecker = ProximityChecker(
       objects: combinedList,
       proximityRange: proximityRange,
-      inProximity: ValueNotifier(false), // Initialize the button state
+      inProximityWith: ValueNotifier(null), // Initialize the button state
     );
     print("Trash picking mini-game started with positions: $trashCans");
   }
@@ -101,17 +101,14 @@ class TrashPickingMiniGame extends MiniGame {
 
   List<SquirrelNPC> generateNPCs(){
     final List<SquirrelNPC> squirrelList = [];
-    SquirrelNPC squirrel = SquirrelNPC(position: Vector2(100, 100)); //Position of the Squirrel
+    SquirrelNPC squirrel = SquirrelNPC(position: Vector2(100, 100));
     squirrelList.add(squirrel);
     return squirrelList;
   }
 
-
   //Edit this
   @override
-  void interactObject(BuildContext context, GameObject object)  {
-    
-
+  void interactWithObject(BuildContext context, GameObject object)  {
     if (object is Trash) {
       object.interact();
       trashCans.remove(object);
@@ -119,6 +116,7 @@ class TrashPickingMiniGame extends MiniGame {
       proximityChecker.removeObject(object);
       print('Removed trash can at position: ${object.position}');
     }
+    
     if (object is SquirrelNPC) {
       object.interact();
       TalkDialog.show(context, GameDialog.trashPickingSquirrelInteract(numberOfTrashCans - collectedTrash));

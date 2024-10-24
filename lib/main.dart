@@ -1,3 +1,4 @@
+import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 
 import 'game.dart';
@@ -7,6 +8,8 @@ void main() {
   // i.e. from lib/sprite_sheet/sprite_sheet_player.dart
   // await SpriteSheetPlayer.load();
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  Flame.device.setLandscape();
+  Flame.device.fullScreen();
   runApp(const EcoHeroes());
 }
 

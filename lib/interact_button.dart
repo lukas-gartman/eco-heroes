@@ -4,15 +4,12 @@ class InteractButton extends StatelessWidget {
   final bool isVisible;
   final VoidCallback onPressed;
 
-  InteractButton({
-    required this.isVisible,
-    required this.onPressed,
-  });
+  const InteractButton({super.key, required this.isVisible, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     if (!isVisible) {
-      return SizedBox.shrink(); // Do not display if not visible
+      return const SizedBox.shrink(); // Do not display if not visible
     }
 
     return Positioned(
@@ -20,7 +17,7 @@ class InteractButton extends StatelessWidget {
       right: 50,
       child: ElevatedButton(
         onPressed: onPressed,
-        child: Text('Interact'),
+        child: const Text('Interact'),
       ),
     );
   }

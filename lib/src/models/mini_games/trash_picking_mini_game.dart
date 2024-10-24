@@ -29,7 +29,7 @@ class TrashPickingMiniGame extends MiniGame {
   List<GameObject> get objects => combinedList;//Changed to combinedList from trashCans
 
   @override
-  GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('eco-heroes.tmj'));
+  GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('eco-heroes.tmj'), forceTileSize: Vector2.all(tileSize));
 
   @override
   void start() {

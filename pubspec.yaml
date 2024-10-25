@@ -42,3 +42,10 @@ flutter:
     - assets/images/maps/trash_picking/tileset.png
     - assets/images/maps/trash_picking/OutdoorCamping.gif
     - assets/images/maps/trash_picking/City Prop Tileset update 2.png
+
+    - assets/images/maps/chopped_down_forrest/choppedDownForrest.tmj
+    - assets/images/maps/chopped_down_forrest/Forest ground.png
+    - assets/images/maps/chopped_down_forrest/Forest props.png
+    - assets/images/maps/chopped_down_forrest/OutdoorCamping.gif
+    - assets/images/maps/chopped_down_forrest/zeo254-completed-commission.png
+    - assets/images/maps/chopped_down_forrest/tileset.png

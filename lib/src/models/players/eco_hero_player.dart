@@ -19,18 +19,50 @@ class EcoHeroPlayer extends SimplePlayer {
 class PlayerSpriteSheet {
  
   static Future<SpriteAnimation> get idleRight => SpriteAnimation.load(
-        "player/knight_idle.png",
+        "player/eco_hero_idle.png",
         SpriteAnimationData.sequenced(
-          amount: 6,
+          amount: 1,
+          stepTime: 0.1,
+          textureSize: Vector2(16, 16),
+        ),
+      );
+    static Future<SpriteAnimation> get idleLeft => SpriteAnimation.load(
+        "player/eco_hero_idle.png",
+        SpriteAnimationData.sequenced(
+          amount: 1,
           stepTime: 0.1,
           textureSize: Vector2(16, 16),
         ),
       );
 
   static Future<SpriteAnimation> get runRight => SpriteAnimation.load(
-        "player/knight_run.png",
+        "player/eco_hero_run_right.png",
         SpriteAnimationData.sequenced(
-          amount: 6,
+          amount: 2,
+          stepTime: 0.1,
+          textureSize: Vector2(16, 16),
+        ),
+      );
+  static Future<SpriteAnimation> get runLeft => SpriteAnimation.load(
+        "player/eco_hero_run_left.png",
+        SpriteAnimationData.sequenced(
+          amount: 2,
+          stepTime: 0.1,
+          textureSize: Vector2(16, 16),
+        ),
+      );
+  static Future<SpriteAnimation> get runUp => SpriteAnimation.load(
+        "player/eco_hero_run_up.png",
+        SpriteAnimationData.sequenced(
+          amount: 3,
+          stepTime: 0.1,
+          textureSize: Vector2(16, 16),
+        ),
+      );
+  static Future<SpriteAnimation> get runDown => SpriteAnimation.load(
+        "player/eco_hero_run_down.png",
+        SpriteAnimationData.sequenced(
+          amount: 7,
           stepTime: 0.1,
           textureSize: Vector2(16, 16),
         ),
@@ -39,6 +71,10 @@ class PlayerSpriteSheet {
   static SimpleDirectionAnimation get simpleDirectionAnimation =>
       SimpleDirectionAnimation(
         idleRight: idleRight,
+        idleLeft: idleLeft,
         runRight: runRight,
+        runLeft: runLeft,
+        runUp: runUp,
+        runDown: runDown,
       );
 }

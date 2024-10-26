@@ -1,19 +1,18 @@
 import 'dart:math';
-import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
-
+import 'package:flutter/material.dart';
 import '../dialog.dart';
 import '../interactive_objects/trash.dart';
 import '../interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
-
+import '../mini_games/recycling_mini_game.dart';
 class TrashPickingMiniGame extends MiniGame {
   static const double tileSize = 16;
   static const double mapWidth = 320;
   static const double mapHeight = 320;
-  static const int numberOfTrashCans = 5;
+  static const int numberOfTrashCans = 1;
 
   late List<Trash> trashCans;
   late List<SquirrelNPC> squirrels;
@@ -21,8 +20,8 @@ class TrashPickingMiniGame extends MiniGame {
   final double proximityRange = 40;
   int collectedTrash = 0;
   bool isStart = true;
-  bool isCompleted = false;
-
+  bool isRecyclingCompleted = false;
+  bool isTrashPickingCompleted = false;
   TrashPickingMiniGame(super.onCompleted);
 
   @override
@@ -50,7 +49,7 @@ class TrashPickingMiniGame extends MiniGame {
 
   @override
   void update(BuildContext context, Vector2 playerPosition) {
-    if (isCompleted) return;
+    if (isTrashPickingCompleted) return;
     if (isStart) {
       isStart = false;
       TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
@@ -59,11 +58,25 @@ class TrashPickingMiniGame extends MiniGame {
     
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
     if (trashCans.isEmpty) {
-      isCompleted = true;
-      TalkDialog.show(context, GameDialog.trashPickingEndDialog(), onFinish: () => super.onCompleted());
+     isTrashPickingCompleted = true;
+      TalkDialog.show(context, GameDialog.trashPickingEndDialog(), onFinish: () => 
+        Future.microtask(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RecyclingMinigame(onRecyclingCompleted: _handleRecyclingCompleted,)),
+          );
+        })
+        );
     }
   }
 
+  void _handleRecyclingCompleted() {
+    isRecyclingCompleted = true;
+    if (isTrashPickingCompleted && isRecyclingCompleted) {
+      super.onCompleted();
+    }
+  }
+  
   List<Trash> generateRandomTrashCans(int numberOfTrashCans) {
     final List<Trash> trashList = [];
     final random = Random();

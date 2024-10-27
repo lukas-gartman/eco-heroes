@@ -24,13 +24,18 @@ class ChoppedForrestMiniGame extends MiniGame {
   bool isStart = true;
   bool isCompleted = false;
 
+  final WorldMapByTiled _map1 = WorldMapByTiled(WorldMapReader.fromAsset('maps/chopped_down_forrest/choppedDownForrest.tmj'), forceTileSize: Vector2.all(tileSize));
+  final WorldMapByTiled _map2 = WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
+
+  bool _showMap1 = true;
+
   ChoppedForrestMiniGame(super.onCompleted);
 
   @override
   List<GameObject> get objects => combinedList; //Changed to combinedList from trashCans
 
   @override
-  GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/chopped_down_forrest/choppedDownForrest.tmj'), forceTileSize: Vector2.all(tileSize));
+  GameMap get map => _showMap1 ? _map1 : _map2;
 
   @override
   void start() {
@@ -47,7 +52,6 @@ class ChoppedForrestMiniGame extends MiniGame {
       proximityRange: proximityRange,
       inProximityWith: ValueNotifier(null), // Initialize the button state
     );
-    //print("Trash picking mini-game started with positions: $holes");
   }
 
   @override
@@ -56,13 +60,16 @@ class ChoppedForrestMiniGame extends MiniGame {
     if (isStart) {
       isStart = false;
       //Change intro dialogue 
+      
       TalkDialog.show(context, GameDialog.plantingIntroDialogue());
       return;
     }
     
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
     if (plantedSeeds == numberOfHoles) {
+      
       isCompleted = true;
+      
       TalkDialog.show(context, GameDialog.plantingEndDialog(), onFinish: () => super.onCompleted());
     }
   }
@@ -103,12 +110,19 @@ class ChoppedForrestMiniGame extends MiniGame {
       object.interact();
       proximityChecker.removeObject(object);
       plantedSeeds++;
+      toggleMap();
       
     }
     
     if (object is SquirrelNPC) {
       object.interact();
       TalkDialog.show(context, GameDialog.plantingSquirrelDialog(numberOfHoles - plantedSeeds));
+    }
+  }
+
+  void toggleMap(){
+    setState(){
+      _showMap1 = !_showMap1;
     }
   }
 }

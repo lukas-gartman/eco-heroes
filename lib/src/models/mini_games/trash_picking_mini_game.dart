@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:eco_heroes/end_of_game_task.dart';
 import 'package:eco_heroes/src/models/interactive_objects/recycling_bins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,29 +1,28 @@
 import 'dart:math';
-import 'package:eco_heroes/src/models/interactive_objects/recycling_bins.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/apple_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/banana_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/box_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/cup_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/egg_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/magazine_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/milk_trash.dart';
-import 'package:eco_heroes/src/models/interactive_objects/trash_objects/plastic_bag_trash.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
 
+import '../interactive_objects/recycling_bins.dart';
+import '../interactive_objects/trash_objects/apple_trash.dart';
+import '../interactive_objects/trash_objects/banana_trash.dart';
+import '../interactive_objects/trash_objects/box_trash.dart';
+import '../interactive_objects/trash_objects/cup_trash.dart';
+import '../interactive_objects/trash_objects/egg_trash.dart';
+import '../interactive_objects/trash_objects/magazine_trash.dart';
+import '../interactive_objects/trash_objects/milk_trash.dart';
+import '../interactive_objects/trash_objects/plastic_bag_trash.dart';
 import '../dialog.dart';
 import '../interactive_objects/trash.dart';
 import '../interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
+import '../mini_games/recycling_mini_game.dart';
 
 class TrashPickingMiniGame extends MiniGame {
   static const double tileSize = 16;
   static const double mapWidth = 640;
   static const double mapHeight = 640;
-  // static const int numberOfTrashCans = 5;
 
   late List<Trash> trashObjects;
   late List<SquirrelNPC> squirrels;
@@ -34,15 +33,16 @@ class TrashPickingMiniGame extends MiniGame {
 
   int collectedTrash = 0;
   bool isStart = true;
-  bool isCompleted = false;
-
-  TrashPickingMiniGame(super.onCompleted);
+  bool isRecyclingCompleted = false;
+  bool isTrashPickingCompleted = false;
 
   @override
-  List<GameObject> get objects => interactableObjects;//Changed to combinedList from trashCans
+  List<GameObject> get objects => interactableObjects;
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
+
+  TrashPickingMiniGame(super.onCompleted);
 
   @override
   void start() {
@@ -63,7 +63,6 @@ class TrashPickingMiniGame extends MiniGame {
 
   @override
   void update(BuildContext context, Vector2 playerPosition) {
-    if (isCompleted) return;
     if (isStart) {
       isStart = false;
       TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
@@ -71,13 +70,13 @@ class TrashPickingMiniGame extends MiniGame {
     }
     
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
-    if (collectedTrash >= trashObjects.length) {
-      isCompleted = true;
-      TalkDialog.show(context, GameDialog.trashPickingEndDialog(), onFinish: () => super.onCompleted());
+    if (collectedTrash >= trashObjects.length && !isTrashPickingCompleted) {
+      isTrashPickingCompleted = true;
+      TalkDialog.show(context, GameDialog.trashPickingEndDialog());
     }
   }
 
-  List<Trash> createTrashObjects([
+  List<Trash> createTrashObjects({
     int? appleCount,
     int? bananaCount,
     int? boxCount,
@@ -86,7 +85,7 @@ class TrashPickingMiniGame extends MiniGame {
     int? magazineCount,
     int? milkCount,
     int? plasticBagCount,
-  ]) {
+  }) {
     List<Trash> objects = [];
     final random = Random();
     getRandomNumUpTo(int max) => random.nextInt(max) + 1;
@@ -101,7 +100,8 @@ class TrashPickingMiniGame extends MiniGame {
     plasticBagCount ??= getRandomNumUpTo(3);
 
     bool isValidPosition(Vector2 position) {
-      return objects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      List<InteractiveObject> allObjects = [recyclingBins, ...objects];
+      return allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
     }
 
     Vector2 generateRandomPosition() {
@@ -151,7 +151,16 @@ class TrashPickingMiniGame extends MiniGame {
 
     if (object is RecyclingBins) {
       object.interact();
-      TalkDialog.show(context, GameDialog.trashPickingRecyclingInteract(trashObjects.length - collectedTrash));
+      if (!isTrashPickingCompleted) {
+        TalkDialog.show(context, GameDialog.trashPickingRecyclingInteract(trashObjects.length - collectedTrash));
+      } else {
+        Future.microtask(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RecyclingMinigame(trashObjects: trashObjects, onRecyclingCompleted: () => super.onCompleted())),
+          );
+        });
+      }
     }
   }
 }

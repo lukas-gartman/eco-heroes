@@ -40,6 +40,17 @@ class GameDialog {
     return [
       _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
       _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "Thank you for saving the park Eco Hero! Now head over to the recycle bins to sort the trash.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ];
+  }
+  static List<Say> recyclingIntroDialog() {
+    return [
+      _speak(text: "Help me recycle!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
+    ];
+  }
+  static List<Say> recyclingEndingDialog() {
+    return [
+      _speak(text: "Thank you for recycling all the trash EcoHero!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
     ];
   }
 

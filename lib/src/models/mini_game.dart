@@ -9,7 +9,7 @@ abstract class MiniGame {
 
   List<GameObject> get objects;
   GameMap get map;
-  List<Rect>? get collisionAreas;
+  List<Rect> get collisionAreas => [];
 
   MiniGame(this.onCompleted);
 

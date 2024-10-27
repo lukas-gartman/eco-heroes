@@ -37,10 +37,11 @@ class TrashPickingMiniGame extends MiniGame {
   bool isTrashPickingCompleted = false;
 
   @override
-  List<GameObject> get objects => interactableObjects;
-
-  @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
+  @override
+  List<GameObject> get objects => interactableObjects;
+  @override
+  List<Rect>? get collisionAreas => [];
 
   TrashPickingMiniGame(super.onCompleted);
 

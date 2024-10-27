@@ -107,7 +107,7 @@ class TrashPickingMiniGame extends MiniGame {
     Vector2 generateRandomPosition() {
       Vector2 position;
       do {
-        position = Vector2(random.nextDouble() * mapWidth, random.nextDouble() * mapHeight);
+        position = Vector2(random.nextDouble() * (mapWidth - proximityRange), random.nextDouble() * (mapHeight - proximityRange));
       } while (!isValidPosition(position));
 
       return position;

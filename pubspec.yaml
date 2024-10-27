@@ -41,14 +41,6 @@ flutter:
     - assets/images/squirrel.png
     - assets/images/player/player_idle_right.png
     - assets/images/recycling_minigame_background.jpg
-    - assets/images/trash/trash_apple.png
-    - assets/images/trash/trash_banana.png
-    - assets/images/trash/trash_box.png
-    - assets/images/trash/trash_cup.png
-    - assets/images/trash/trash_egg.png
-    - assets/images/trash/trash_magazine.png
-    - assets/images/trash/trash_milk.png
-    - assets/images/trash/trash_plasticbag.png
   
     - assets/images/cut_scenes/dirty-city.jpg
     - assets/images/cut_scenes/clean-city.jpg

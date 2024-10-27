@@ -23,6 +23,19 @@ class GameDialog {
     ];
   }
 
+  static List<Say> trashPickingRecyclingInteract(int trashLeft) {
+    if (trashLeft == 0) {
+      return [
+        _speak(text: "Great job Eco Hero! You've cleaned up all the trash!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+        _speak(text: "You can now start sorting the trash into the correct bins.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      ];
+    } else {
+      return [
+        _speak(text: "You still have $trashLeft trash to pick up before you can start sorting!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      ];
+    }
+  }
+
   static List<Say> trashPickingEndDialog() {
     return [
       _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),

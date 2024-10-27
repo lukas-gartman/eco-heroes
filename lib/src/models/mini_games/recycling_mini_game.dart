@@ -23,6 +23,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   bool hasShownIntroDialog = false; // This will track whether the intro dialog has been shown
   String feedbackMessage = '';
   Color feedbackColor = Colors.black;
+  bool showDropZone = false;
 
   @override
   void initState() {
@@ -102,9 +103,12 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
       child: Draggable<Offset>(
         data: position,
         feedback: Image.asset(imagePath, width: 80, height: 80),
+        onDragStarted: () => setState(() => showDropZone = true),
         childWhenDragging: Container(),
         onDraggableCanceled: (velocity, offset) {
           setState(() {
+            showDropZone = false;
+
             if (_isInTargetZone(offset, targetBin)) {
               onSorted(true); // Mark as sorted if in the correct bin
               _showFeedback("Correct bin, good job!", Colors.white); // Change this to make a sound instead
@@ -142,6 +146,22 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
               fit: BoxFit.cover,
             ),
           ),
+
+          if (showDropZone) ...[
+            for (Rect bin in [paperBin, plasticBin, compostBin]) ...[
+              Positioned(
+                left: bin.left,
+                top: bin.top,
+                child: Container(
+                  width: bin.width,
+                  height: bin.height,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5),
+                  ),
+                ),
+              ),
+            ],
+          ],
 
           if (feedbackMessage.isNotEmpty) ...[
             Center(

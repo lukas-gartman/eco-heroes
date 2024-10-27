@@ -1,4 +1,7 @@
 import 'dart:math';
+import 'package:eco_heroes/end_of_game_task.dart';
+import 'package:eco_heroes/src/models/interactive_objects/recycling_bins.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
 
@@ -17,6 +20,7 @@ class TrashPickingMiniGame extends MiniGame {
 
   late List<Trash> trashCans;
   late List<SquirrelNPC> squirrels;
+  RecyclingBins recyclingBins = RecyclingBins(position: Vector2(189, 260));
   List<InteractiveObject> combinedList = [];
   final double proximityRange = 40;
   int collectedTrash = 0;
@@ -38,6 +42,7 @@ class TrashPickingMiniGame extends MiniGame {
     
     combinedList.addAll(squirrels);
     combinedList.addAll(trashCans);
+    combinedList.add(recyclingBins);
     
     //Create a combined list with trashcans and NPCs
     super.proximityChecker = ProximityChecker(
@@ -45,6 +50,7 @@ class TrashPickingMiniGame extends MiniGame {
       proximityRange: proximityRange,
       inProximityWith: ValueNotifier(null), // Initialize the button state
     );
+
     print("Trash picking mini-game started with positions: $trashCans");
   }
 
@@ -91,6 +97,11 @@ class TrashPickingMiniGame extends MiniGame {
         }
       }
 
+      if (position.distanceTo(recyclingBins.position) < proximityRange+10) {
+        isValidPosition = false;
+        break; // No need to check further if the new position is too close
+      }
+
       if (isValidPosition) {
         trashList.add(Trash(position: position));
       }
@@ -121,6 +132,11 @@ class TrashPickingMiniGame extends MiniGame {
       object.interact();
       TalkDialog.show(context, GameDialog.trashPickingSquirrelInteract(numberOfTrashCans - collectedTrash));
       //print("Hello, im a squirrel. Please help us clean up!");
+    }
+
+    if (object is RecyclingBins) {
+      object.interact();
+      TalkDialog.show(context, GameDialog.trashPickingRecyclingInteract(numberOfTrashCans - collectedTrash));
     }
   }
 }

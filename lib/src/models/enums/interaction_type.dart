@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 enum InteractionType {
   interact,
   clean,
-  talk;
+  talk,
+  recycle;
 
   String get buttonText {
     switch (this) {
@@ -13,6 +14,8 @@ enum InteractionType {
         return 'Clean Up';
       case InteractionType.talk:
         return 'Talk';
+      case InteractionType.recycle:
+        return 'Recycle';
     }
   }
 
@@ -24,6 +27,8 @@ enum InteractionType {
         return const Icon(Icons.cleaning_services);
       case InteractionType.talk:
         return const Icon(Icons.chat);
+      case InteractionType.recycle:
+        return const Icon(Icons.recycling);
     }
   }
 }

@@ -10,10 +10,19 @@ class EcoHeroPlayer extends SimplePlayer {
           animation: PlayerSpriteSheet.simpleDirectionAnimation,
       );
 
-   Vector2 getPosition(){
-      print(position);
-      return position;
-   }  
+  Vector2 getPosition() {
+    return position;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (position.x < 0) position.x = 0;
+    if (position.y < 0) position.y = 0;
+    if (position.x > gameRef.map.getMapSize().x - width)  position.x = gameRef.map.getMapSize().x - width;
+    if (position.y > gameRef.map.getMapSize().y - height) position.y = gameRef.map.getMapSize().y - height;
+  }
 }
 
 class PlayerSpriteSheet {

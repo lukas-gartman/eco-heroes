@@ -58,6 +58,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               key: bonfireKey, // Force Bonfire to rebuild when the mini-game changes
               playerControllers: [
                 Joystick(directional: JoystickDirectional()),
+                Keyboard(config: KeyboardConfig(directionalKeys: [KeyboardDirectionalKeys.wasd()])),
               ],
               cameraConfig: CameraConfig(zoom: 2),
               map: miniGame.map,

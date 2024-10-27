@@ -1,13 +1,17 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/enums/interaction_type.dart';
-import 'package:eco_heroes/src/models/interactive_object.dart';
 
-class Trash extends InteractiveObject {
+import '../interactive_object.dart';
+import '../enums/trash_type.dart';
+import '../enums/interaction_type.dart';
+
+abstract class Trash extends InteractiveObject {
+  final TrashType trashType;
+  final String spriteSrc;
   @override
   InteractionType get interactionType => InteractionType.clean;
 
-  Trash({required super.position})
-    : super(size: Vector2(32, 32), sprite: Sprite.load('trash.png'));
+  Trash({required this.trashType, required this.spriteSrc, required super.position})
+    : super(size: Vector2(32, 32), sprite: Sprite.load(spriteSrc));
 
   @override
   void interact() {

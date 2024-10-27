@@ -6,8 +6,10 @@ import 'proximity_checker.dart';
 abstract class MiniGame {
   final void Function() onCompleted;
   late final ProximityChecker proximityChecker;
+
   List<GameObject> get objects;
   GameMap get map;
+  List<Rect> get collisionAreas => [];
 
   MiniGame(this.onCompleted);
 

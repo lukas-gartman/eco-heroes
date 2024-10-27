@@ -25,7 +25,7 @@ class CutSceneState extends State<CutScene> {
     dialog = widget.dialog;
     cityHasBeenSaved = widget.cityHasBeenSaved;
 
-    Future.delayed(Duration(seconds: 3), () { // Wait for the widget to be built by skipping a frame. 3 seconds is for a pleasant transition.
+    Future.delayed(Duration.zero, () { // Wait for the widget to be built by skipping a frame.
       TalkDialog.show(
         context,
         widget.dialog,

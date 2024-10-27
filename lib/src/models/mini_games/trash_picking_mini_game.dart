@@ -76,7 +76,7 @@ class TrashPickingMiniGame extends MiniGame {
     }
   }
 
-  List<Trash> createTrashObjects([
+  List<Trash> createTrashObjects({
     int? appleCount,
     int? bananaCount,
     int? boxCount,
@@ -85,7 +85,7 @@ class TrashPickingMiniGame extends MiniGame {
     int? magazineCount,
     int? milkCount,
     int? plasticBagCount,
-  ]) {
+  }) {
     List<Trash> objects = [];
     final random = Random();
     getRandomNumUpTo(int max) => random.nextInt(max) + 1;
@@ -100,7 +100,8 @@ class TrashPickingMiniGame extends MiniGame {
     plasticBagCount ??= getRandomNumUpTo(3);
 
     bool isValidPosition(Vector2 position) {
-      return objects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      List<InteractiveObject> allObjects = [recyclingBins, ...objects];
+      return allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
     }
 
     Vector2 generateRandomPosition() {
@@ -156,7 +157,7 @@ class TrashPickingMiniGame extends MiniGame {
         Future.microtask(() {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RecyclingMinigame(onRecyclingCompleted: () => super.onCompleted())),
+            MaterialPageRoute(builder: (context) => RecyclingMinigame(trashObjects: trashObjects, onRecyclingCompleted: () => super.onCompleted())),
           );
         });
       }

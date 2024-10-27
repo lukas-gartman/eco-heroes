@@ -1,25 +1,25 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 import '../dialog.dart';
+import '../enums/trash_type.dart';
+import '../interactive_objects/trash.dart';
 
 class RecyclingMinigame extends StatefulWidget {
+  final List<Trash> trashObjects;
   final Function? onRecyclingCompleted;
 
-  const RecyclingMinigame({Key? key, this.onRecyclingCompleted}) : super(key: key);
+  const RecyclingMinigame({super.key, required this.trashObjects, this.onRecyclingCompleted});
 
   @override
-  _RecyclingMinigameState createState() => _RecyclingMinigameState();
+  RecyclingMinigameState createState() => RecyclingMinigameState();
 }
 
-class _RecyclingMinigameState extends State<RecyclingMinigame> {
-  Offset boxPosition = Offset(0.4, 0.8);
-  Offset plasticPosition = Offset(0.5, 0.8);
-  Offset bananaPosition = Offset(0.6, 0.8);
-
+class RecyclingMinigameState extends State<RecyclingMinigame> {
+  late List<Trash> trashObjects;
   late Rect paperBin, plasticBin, compostBin;
-  bool isBoxSorted = false;
-  bool isPlasticSorted = false;
-  bool isBananaSorted = false;
+  late List<Offset> trashPositions;
+  late List<int> sortedTrash;
+
   bool hasShownIntroDialog = false; // This will track whether the intro dialog has been shown
   String feedbackMessage = '';
   Color feedbackColor = Colors.black;
@@ -27,6 +27,11 @@ class _RecyclingMinigameState extends State<RecyclingMinigame> {
   @override
   void initState() {
     super.initState();
+
+    trashObjects = widget.trashObjects..shuffle();
+    trashPositions = List.generate(trashObjects.length, (index) => Offset((index * 0.04), (index % 2 == 0 ? 0.75 : 0.85)));
+    sortedTrash = [];
+
     // Show the intro dialog when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showIntroDialog();
@@ -121,7 +126,7 @@ class _RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   void _checkGameCompletion() {
-    if (isBoxSorted && isPlasticSorted && isBananaSorted) {
+    if (sortedTrash.length == trashObjects.length) {
       _completeRecyclingGame(); // Trigger the callback if all items are sorted
     }
   }
@@ -138,41 +143,58 @@ class _RecyclingMinigameState extends State<RecyclingMinigame> {
             ),
           ),
 
-          if (feedbackMessage.isNotEmpty)
+          if (feedbackMessage.isNotEmpty) ...[
             Center(
-              child: Text(
-                feedbackMessage,
-                style: TextStyle(color: feedbackColor, fontSize: 30, fontWeight: FontWeight.bold),
-              ),
+              child: Stack(
+                children: [
+                  Text(
+                    feedbackMessage,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 4
+                        ..color = Colors.black,
+                    ),
+                  ),
+                  Text(
+                    feedbackMessage,
+                    style: TextStyle(color: feedbackColor, fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              )
             ),
+          ],
 
-          _buildDraggableItem(
-            position: boxPosition,
-            imagePath: 'assets/images/trash/trash_box.png',
-            targetBin: paperBin,
-            initialPosition: Offset(0.4, 0.8),
-            onResetPosition: (newPosition) => setState(() => boxPosition = newPosition),
-            onSorted: (sorted) => setState(() => isBoxSorted = sorted),
-            isSorted: isBoxSorted,
-          ),
-          _buildDraggableItem(
-            position: plasticPosition,
-            imagePath: 'assets/images/trash/trash_plasticbag.png',
-            targetBin: plasticBin,
-            initialPosition: Offset(0.5, 0.8),
-            onResetPosition: (newPosition) => setState(() => plasticPosition = newPosition),
-            onSorted: (sorted) => setState(() => isPlasticSorted = sorted),
-            isSorted: isPlasticSorted,
-          ),
-          _buildDraggableItem(
-            position: bananaPosition,
-            imagePath: 'assets/images/trash/trash_apple.png',
-            targetBin: compostBin,
-            initialPosition: Offset(0.6, 0.8),
-            onResetPosition: (newPosition) => setState(() => bananaPosition = newPosition),
-            onSorted: (sorted) => setState(() => isBananaSorted = sorted),
-            isSorted: isBananaSorted,
-          ),
+          ...trashObjects.asMap().entries.map((entry) {
+            int index = entry.key;
+            Trash trash = entry.value;
+            Offset initialPosition = trashPositions[index];
+
+            Rect targetBin;
+            switch (trash.trashType) {
+              case TrashType.paper:
+                targetBin = paperBin;
+                break;
+              case TrashType.plastic:
+                targetBin = plasticBin;
+                break;
+              case TrashType.compost:
+                targetBin = compostBin;
+                break;
+            }
+
+            return _buildDraggableItem(
+              position: initialPosition,
+              imagePath: "assets/images/${trash.spriteSrc}",
+              targetBin: targetBin,
+              initialPosition: initialPosition,
+              onResetPosition: (newPosition) => setState(() => trashPositions[index] = newPosition),
+              onSorted: (sorted) => setState(() { if (sorted) sortedTrash.add(index); }),
+              isSorted: sortedTrash.contains(index),
+            );
+          }),
         ],
       ),
     );

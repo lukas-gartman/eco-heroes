@@ -42,6 +42,16 @@ class GameDialog {
       _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
     ];
   }
+  static List<Say> recyclingIntroDialog() {
+    return [
+      _speak(text: "Help me recycle!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
+    ];
+  }
+  static List<Say> recyclingEndingDialog() {
+    return [
+      _speak(text: "Thank you for recycling all the trash EcoHero!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
+    ];
+  }
 
   // Helper method to structure the dialog
   static Say _speak({required String text, required bool isHero, required String imagepath}) {

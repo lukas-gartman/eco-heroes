@@ -63,7 +63,6 @@ class TrashPickingMiniGame extends MiniGame {
 
   @override
   void update(BuildContext context, Vector2 playerPosition) {
-    if (isTrashPickingCompleted) return;
     if (isStart) {
       isStart = false;
       TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
@@ -71,9 +70,9 @@ class TrashPickingMiniGame extends MiniGame {
     }
     
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
-    if (collectedTrash >= trashObjects.length) {
+    if (collectedTrash >= trashObjects.length && !isTrashPickingCompleted) {
       isTrashPickingCompleted = true;
-      TalkDialog.show(context, GameDialog.trashPickingEndDialog(), onFinish: () => super.onCompleted());
+      TalkDialog.show(context, GameDialog.trashPickingEndDialog());
     }
   }
 

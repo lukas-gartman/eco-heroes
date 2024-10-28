@@ -8,7 +8,7 @@ class EcoHeroPlayer extends SimplePlayer {
       : super(
           position: position, 
           size: Vector2.all(32),
-          speed: 200,
+          speed: 150,
           animation: PlayerSpriteSheet.simpleDirectionAnimation,
       );
 
@@ -27,10 +27,10 @@ class EcoHeroPlayer extends SimplePlayer {
 
     if (collisionAreas != null) {
       for (var area in collisionAreas!) {
-      if (area.containsPoint(position)) {
-        position = previousPosition;
-        break;
-      }
+        if (area.containsPoint(position)) {
+          position = previousPosition;
+          break;
+        }
       }
     }
 

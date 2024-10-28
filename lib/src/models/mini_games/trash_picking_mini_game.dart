@@ -17,7 +17,7 @@ import '../interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
-import '../mini_games/recycling_mini_game.dart';
+import 'end_games/recycling_mini_game.dart';
 
 class TrashPickingMiniGame extends MiniGame {
   static const double tileSize = 16;
@@ -35,6 +35,8 @@ class TrashPickingMiniGame extends MiniGame {
   bool isStart = true;
   bool isRecyclingCompleted = false;
   bool isTrashPickingCompleted = false;
+
+  TrashPickingMiniGame({required super.onCompleted, super.cutScene});
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
@@ -54,8 +56,6 @@ class TrashPickingMiniGame extends MiniGame {
     const Rect.fromLTRB(495, 103, 516, 145), // Top right bench
     const Rect.fromLTRB(168, 229, 236, 266), // Recycling bins
   ];
-
-  TrashPickingMiniGame(super.onCompleted);
 
   @override
   void start() {
@@ -77,6 +77,8 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   void update(BuildContext context, Vector2 playerPosition) {
     if (isStart) {
+      super.update(context, playerPosition);
+
       isStart = false;
       TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
       return;

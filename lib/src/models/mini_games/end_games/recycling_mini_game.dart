@@ -1,8 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import '../dialog.dart';
-import '../enums/trash_type.dart';
-import '../interactive_objects/trash.dart';
+import '../../dialog.dart';
+import '../../enums/trash_type.dart';
+import '../../interactive_objects/trash.dart';
 
 class RecyclingMinigame extends StatefulWidget {
   final List<Trash> trashObjects;

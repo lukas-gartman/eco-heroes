@@ -8,7 +8,7 @@ import '../interactive_object.dart';
 import '../interactive_objects/lamp.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
-import 'quiz_mini_game.dart';
+import 'end_games/quiz_mini_game.dart';
 
 class ApartmentMiniGame extends MiniGame {
   static const double tileSize = 16 * 2;
@@ -17,6 +17,8 @@ class ApartmentMiniGame extends MiniGame {
   final double proximityRange = 40;
   bool isStart = true;
   bool isGameCompleted = false;
+
+  ApartmentMiniGame({required super.onCompleted, super.cutScene});
 
   final List<Lamp> _lamps = [
     TableLamp(position: Vector2(425, 560)),
@@ -90,8 +92,6 @@ class ApartmentMiniGame extends MiniGame {
     const Rect.fromLTRB(30, 0, 100, 66),     // top bed
   ];
 
-  ApartmentMiniGame(super.onCompleted);
-
   @override
   void start() {
     super.proximityChecker = ProximityChecker(
@@ -104,6 +104,8 @@ class ApartmentMiniGame extends MiniGame {
   @override
   void update(BuildContext context, Vector2 playerPosition) {
     if (isStart) {
+      super.update(context, playerPosition);
+
       isStart = false;
       TalkDialog.show(context, GameDialog.apartmentIntroDialog());
       return;

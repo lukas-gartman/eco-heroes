@@ -52,6 +52,7 @@ flutter:
 
 
     - assets/images/maps/chopped_down_forrest/choppedDownForrest.tmj
+    - assets/images/maps/chopped_down_forrest/niceLookingForrest.tmj
     - assets/images/maps/chopped_down_forrest/Forest ground.png
     - assets/images/maps/chopped_down_forrest/Forest props.png
     - assets/images/maps/chopped_down_forrest/OutdoorCamping.gif

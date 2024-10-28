@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart'; // Import this for the BuildContext
+import 'package:flutter/material.dart';
 
 class GameDialog {
   static List<Say> introDialog() {
@@ -50,7 +49,7 @@ class GameDialog {
   }
   static List<Say> recyclingEndingDialog() {
     return [
-      _speak(text: "Thank you for recycling all the trash EcoHero!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
+      _speak(text: "Thank you for recycling all the trash Eco Hero!.", isHero: false, imagepath: 'assets/images/squirrel.png')      
     ];
   }
 
@@ -82,11 +81,9 @@ class GameDialog {
     ];
   }
 
-  //REMEBER TO UPDATE
   static List<Say> plantingEndDialog() {
     return [
-      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
-      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "Well done, Eco Hero! Planting trees helps absorb carbon dioxide and keeps our planet healthy. Goal 13 is all about taking action to protect the climate.", isHero: false, imagepath: 'assets/images/squirrel.png'),
     ];
   }
 

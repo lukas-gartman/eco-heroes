@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import '../dialog.dart';
+import '../../dialog.dart';
 //inspired by https://www.geeksforgeeks.org/basic-quiz-app-in-flutter-api/
 
 class QuizMiniGame extends StatefulWidget {
@@ -90,7 +90,7 @@ class QuizMiniGameState extends State<QuizMiniGame> {
                   fontSize: 64,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
-                  shadows: [Shadow(offset: Offset(1.5, 1.5), blurRadius: 3.0, color: Colors.black)],
+                  shadows: [Shadow(offset: Offset(4.0, 4.0), blurRadius: 6.0, color: Colors.black)],
                 ),
               ),
             ),

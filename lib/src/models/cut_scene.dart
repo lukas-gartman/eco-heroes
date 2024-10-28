@@ -6,7 +6,8 @@ class CutScene extends StatefulWidget {
   final int opacity;
   final List<Say> dialog;
   final bool cityHasBeenSaved;
-  const CutScene({super.key, required this.opacity, required this.dialog, this.cityHasBeenSaved = false});
+  final Widget? onScreenWidget;
+  const CutScene({super.key, required this.opacity, required this.dialog, this.cityHasBeenSaved = false, this.onScreenWidget});
 
   @override
   CutSceneState createState() => CutSceneState();
@@ -42,19 +43,24 @@ class CutSceneState extends State<CutScene> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Image.asset(
-            cityHasBeenSaved 
-              ? "assets/images/cut_scenes/clean-city.jpg"
-              : "assets/images/cut_scenes/dirty-city.jpg",
-            fit: BoxFit.cover,
-            color: Colors.black.withOpacity(opacity / 100),
-            colorBlendMode: BlendMode.darken,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              cityHasBeenSaved 
+                ? "assets/images/cut_scenes/clean-city.jpg"
+                : "assets/images/cut_scenes/dirty-city.jpg",
+              fit: BoxFit.cover,
+              color: Colors.black.withOpacity(opacity / 100),
+              colorBlendMode: BlendMode.darken,
+            ),
           ),
-        ),
-      ],
+          if (widget.onScreenWidget != null) ...[
+            widget.onScreenWidget!
+          ],
+        ],
+      )
     );
   }
 }

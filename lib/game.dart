@@ -17,7 +17,6 @@ class Game extends StatefulWidget {
 
 class GameState extends State<Game> with TickerProviderStateMixin {
   late GameManager gameManager;
-  CutScene? cutScene;
   late MiniGame miniGame;
   late EcoHeroPlayer player;
   late Ticker _ticker;
@@ -30,8 +29,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
 
     gameManager = GameManager(onMiniGameSwitch);
     gameManager.init();
-    miniGame = gameManager.gameSegment.miniGame;
-    cutScene = gameManager.gameSegment.cutScene;
+    miniGame = gameManager.miniGame;
     player = EcoHeroPlayer(miniGame.playerStartPosition, collisionAreas: miniGame.collisionAreas);
     miniGame.start();
     player = EcoHeroPlayer(Vector2(40, 40), collisionAreas: miniGame.collisionAreas);
@@ -66,13 +64,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               player: player,
               components: miniGame.objects,
               lightingColorGame: miniGame.lighting,
-              onReady: (value) => {
-                if (cutScene != null) ...[
-                  showDialog(context: context, builder: (BuildContext context) {
-                    return Dialog.fullscreen(child: cutScene!);
-                  }),
-                ],
-              },
             ),
             
             ValueListenableBuilder<InteractiveObject?>(
@@ -99,7 +90,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
       Future.microtask(() {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => cutScene!),
+          MaterialPageRoute(builder: (context) => cutScene),
         );
       });
     }
@@ -110,8 +101,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     }
 
     setState(() {
-      cutScene = gameManager.gameSegment.cutScene;
-      miniGame = gameManager.gameSegment.miniGame;
+      miniGame = gameManager.miniGame;
       miniGame.start();
       player = EcoHeroPlayer(miniGame.playerStartPosition, collisionAreas: miniGame.collisionAreas);
       bonfireKey = Key(DateTime.now().toString());

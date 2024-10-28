@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../interactive_objects/recycling_bins.dart';
 import '../interactive_objects/trash_objects/apple_trash.dart';
@@ -41,7 +42,7 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   List<GameObject> get objects => interactableObjects;
   @override
-  List<Rect>? get collisionAreas => [];
+  //List<Rect>? get collisionAreas => [];
 
   TrashPickingMiniGame(super.onCompleted);
 
@@ -73,6 +74,7 @@ class TrashPickingMiniGame extends MiniGame {
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
     if (collectedTrash >= trashObjects.length && !isTrashPickingCompleted) {
       isTrashPickingCompleted = true;
+      FlameAudio.play('minigame_success.wav');
       TalkDialog.show(context, GameDialog.trashPickingEndDialog());
     }
   }
@@ -140,6 +142,7 @@ class TrashPickingMiniGame extends MiniGame {
       object.interact();
       // trashObjects.remove(object);
       collectedTrash++;
+      FlameAudio.play('success.wav');
       proximityChecker.removeObject(object);
       print('Removed trash can at position: ${object.position}');
     }

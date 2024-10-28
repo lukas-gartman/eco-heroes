@@ -1,9 +1,12 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class EcoHeroPlayer extends SimplePlayer {
   List<Rect>? collisionAreas = [];
   Vector2 previousPosition = Vector2.zero();
-
+  bool isMoving = false;
+  double stepInterval = 1.0; // 1 second interval for footstep
+  double stepTimer = 0.0;
   EcoHeroPlayer(Vector2 position, { this.collisionAreas })
       : super(
           position: position, 
@@ -33,11 +36,19 @@ class EcoHeroPlayer extends SimplePlayer {
       }
       }
     }
-
-    previousPosition = position.clone();
-  }
+     if (position != previousPosition) {
+      isMoving = true;
+      stepTimer -= dt;
+      if (stepTimer <= 0) {
+        FlameAudio.play('walking.wav'); // Play the footstep sound
+        stepTimer = stepInterval; // Reset the timer to 1 second
+      }
+    } else {
+      isMoving = false;
+      stepTimer = 0; // Reset timer if the player stops moving
+    }
 }
-
+}
 class PlayerSpriteSheet {
  
   static Future<SpriteAnimation> get idleRight => SpriteAnimation.load(

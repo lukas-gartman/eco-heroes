@@ -17,7 +17,7 @@ dependencies:
   bonfire: ^3.10.2
   flame: ^1.18.0
   collection: ^1.16.0
-
+  flame_audio: ^2.10.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,4 +68,13 @@ flutter:
     - assets/images/trash_objects/box.png
     - assets/images/trash_objects/apple.png
     - assets/images/trash_objects/cup.png
+
+    - assets/audio/birds.wav
+    - assets/audio/city.wav
+    - assets/audio/minigame_success.wav
+    - assets/audio/rain.wav
+    - assets/audio/success.wav
+    - assets/audio/walking.wav
+    - assets/audio/wrong.mp3
+    - assets/audio/loop_music.wav
 

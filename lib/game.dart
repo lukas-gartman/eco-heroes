@@ -34,7 +34,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     cutScene = gameManager.gameSegment.cutScene;
     miniGame.start();
     player = EcoHeroPlayer(Vector2(40, 40), collisionAreas: miniGame.collisionAreas);
-
+    
     _ticker = Ticker((elapsed) { // Call update on the mini-game each frame
       miniGame.update(context, player.position); // Update with player's position
     });

@@ -1,7 +1,7 @@
 import 'package:bonfire/util/talk/say.dart';
 import 'package:bonfire/util/talk/talk_dialog.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flame_audio/flame_audio.dart';
 class CutScene extends StatefulWidget {
   final int opacity;
   final List<Say> dialog;
@@ -20,10 +20,14 @@ class CutSceneState extends State<CutScene> {
   @override
   void initState() {
     super.initState();
-
     opacity = widget.opacity;
     dialog = widget.dialog;
     cityHasBeenSaved = widget.cityHasBeenSaved;
+    FlameAudio.bgm.play(
+     cityHasBeenSaved 
+      ? "birds.wav"
+      : "rain.wav",
+    );
 
     Future.delayed(Duration.zero, () { // Wait for the widget to be built by skipping a frame.
       TalkDialog.show(
@@ -32,6 +36,8 @@ class CutSceneState extends State<CutScene> {
         backgroundColor: Colors.black.withOpacity(0),
         onFinish: () {
           setState(() => opacity = 100); // Make the screen black
+          FlameAudio.bgm.stop(); 
+          FlameAudio.bgm.play('loop_music.wav');
           Future.delayed(const Duration(seconds: 2), () { // Wait for 2 seconds for a more pleasant transition
             Navigator.of(context).pop();
           });
@@ -53,8 +59,10 @@ class CutSceneState extends State<CutScene> {
             color: Colors.black.withOpacity(opacity / 100),
             colorBlendMode: BlendMode.darken,
           ),
+          
         ),
       ],
+      
     );
   }
 }

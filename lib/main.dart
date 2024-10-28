@@ -1,6 +1,5 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-
 import 'game.dart';
 
 void main() {
@@ -21,7 +20,7 @@ class EcoHeroes extends StatelessWidget {
     return MaterialApp(
       title: "Eco Heroes",
       theme: ThemeData(primarySwatch: Colors.green),
-      home: Game()
+      home: Game(),
     );
   }
 }

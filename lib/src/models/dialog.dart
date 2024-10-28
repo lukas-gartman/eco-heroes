@@ -66,6 +66,39 @@ class GameDialog {
     return [
       _speak(text: "Good job Eco Hero! You've saved the house from the Eco Fiend's waste!", isHero: false, imagepath: 'assets/images/squirrel.png'),
       _speak(text: "By saving energy and water, you're helping Goal 11 again—keeping cities sustainable and resources protected for everyone.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ]
+  }
+  
+  static List<Say> plantingIntroDialogue() {
+    return [
+      _speak(text: "Oh you're here eco hero! The evil eco fiend cut down all the trees!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "Here are some seeds, please plant them so that the forrest can grow back!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ];
+  }
+
+    static List<Say> plantingSquirrelDialog(int seedsLeft) {
+    return [
+      _speak(text: "Thanks for doing this for us Eco Hero. You have $seedsLeft seeds to plant until you've saved the forest!", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  //REMEBER TO UPDATE
+  static List<Say> plantingEndDialog() {
+    return [
+      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+    ];
+  }
+
+  static List<Say> quizIntroDialog() {
+    return [
+      _speak(text: "Here's a quiz to test you on what you've learned! ", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  static List<Say> quizEndingDialog() {
+    return [
+      _speak(text: "You completed the quiz!", isHero: false, imagepath: 'assets/images/squirrel.png')
     ];
   }
 

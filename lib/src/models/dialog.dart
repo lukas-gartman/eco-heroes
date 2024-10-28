@@ -3,12 +3,35 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart'; // Import this for the BuildContext
 
 class GameDialog {
-  static List<Say> introDialog() {
+
+  //Narrator = Squirrel
+  //EcoHero
+  //EcoFiend
+
+  //Introduction
+
+  static List<Say> introMeetTheHero() {
     return [
-      _speak(text: "Hello! I've been expecting you.", isHero: true, imagepath: 'assets/images/player/player_run_right.png'),
-      _speak(text: "Hahaha! You cannot defeat me, Villain!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "Welcome, EcoHero! You’re about to go on an exciting adventure to save this city from pollution and destruction. But before you start, let’s talk about something really important—the United Nations’ Sustainable Development Goals, or SDGs for short!", isHero: false, imagepath: 'images/squirrel.png'),
+      _speak(text: "These are 17 goals set by countries all over the world to make our planet a better place. You’ll be focusing on two of them during your mission:", isHero: false, imagepath: 'images/squirrel.png'),
+      _speak(text: "Goal 11 is all about making our cities better places to live. It means cleaner streets, parks, and less waste. And Goal 13 is about taking care of our climate by protecting nature and using energy wisely.", isHero: true, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+      _speak(text: "Together, we can make sure cities like this one become colorful, clean, and safe for everyone. Are you ready to help make that happen? Let’s go!", isHero: true, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+      _speak(text: "~ Transition screen ~", isHero: false, imagepath: 'images/squirrel.png'),
+      _speak(text: "Welcome, EcoHero! You’ve arrived just in time. Our city is in trouble, and only you can save it from the clutches of the Ecofiend!", isHero: false, imagepath: 'images/squirrel.png'),
+      _speak(text: "Hahaha! Look at this mess! I thrive in pollution and chaos. Watch as I ruin your precious city, starting with the park!", isHero: false, imagepath: 'images/trash.png'),
+    
     ];
   }
+
+  static List<Say> introDialog() {
+    return [
+      _speak(text: "Hello! I've been expecting you.", isHero: true, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+      _speak(text: "Hahaha! You cannot defeat me, Villain!", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+    ];
+  }
+
+
+  //Minigame 1 - Trash Picking
 
   static List<Say> trashPickingIntroDialog() {
     return [
@@ -38,8 +61,8 @@ class GameDialog {
 
   static List<Say> trashPickingEndDialog() {
     return [
-      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
-      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
       _speak(text: "Thank you for saving the park Eco Hero! Now head over to the recycle bins to sort the trash.", isHero: false, imagepath: 'assets/images/squirrel.png'),
     ];
   }
@@ -54,11 +77,37 @@ class GameDialog {
     ];
   }
 
+  //Minigame 2 - Planting Trees
+
+  static List<Say> plantingIntroDialogue() {
+    return [
+      _speak(text: "Oh you're here eco hero! The evil eco fiend cut down all the trees!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "Here are some seeds, please plant them so that the forrest can grow back!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ];
+  }
+
+  static List<Say> plantingSquirrelDialog(int seedsLeft) {
+    return [
+      _speak(text: "Thanks for doing this for us Eco Hero. You have $seedsLeft seeds to plant until you've saved the forest!", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  //REMEBER TO UPDATE
+  static List<Say> plantingEndDialog() {
+    return [
+      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
+    ];
+  }
+
+
+  //Minigame 3 - Apartment
+
   static List<Say> apartmentIntroDialog() {
     return [
-      _speak(text: "You may have won the park and forest, but now I'll waste all the energy and water in this house! Let's see how you fix this!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "You may have won the park and forest, but now I'll waste all the energy and water in this house! Let's see how you fix this!", isHero: false, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
       _speak(text: "Eco Hero, the Eco Fiend is wasting energy and water! We need your help to turn off everything we don't need!", isHero: false, imagepath: 'assets/images/squirrel.png'),
-      _speak(text: "No problem! Conserving energy and water is part of keeping cities sustainable. Let's stop the waste and save resources.", isHero: true, imagepath: 'assets/images/player/player_run_right.png'),
+      _speak(text: "No problem! Conserving energy and water is part of keeping cities sustainable. Let's stop the waste and save resources.", isHero: true, imagepath: 'assets/images/player/eco_hero_dialogue.png'),
     ];
   }
 
@@ -69,26 +118,7 @@ class GameDialog {
     ];
   }
   
-  static List<Say> plantingIntroDialogue() {
-    return [
-      _speak(text: "Oh you're here eco hero! The evil eco fiend cut down all the trees!", isHero: false, imagepath: 'assets/images/squirrel.png'),
-      _speak(text: "Here are some seeds, please plant them so that the forrest can grow back!", isHero: false, imagepath: 'assets/images/squirrel.png'),
-    ];
-  }
-
-    static List<Say> plantingSquirrelDialog(int seedsLeft) {
-    return [
-      _speak(text: "Thanks for doing this for us Eco Hero. You have $seedsLeft seeds to plant until you've saved the forest!", isHero: false, imagepath: 'assets/images/squirrel.png')
-    ];
-  }
-
-  //REMEBER TO UPDATE
-  static List<Say> plantingEndDialog() {
-    return [
-      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
-      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
-    ];
-  }
+  //Minigame 4 - Quiz
 
   static List<Say> quizIntroDialog() {
     return [
@@ -101,6 +131,8 @@ class GameDialog {
       _speak(text: "You completed the quiz! Well done!", isHero: false, imagepath: 'assets/images/squirrel.png')
     ];
   }
+
+  //Ending
 
   static List<Say> cityIsSavedDialog() {
     return [
@@ -119,7 +151,7 @@ class GameDialog {
         height: 80,
         width: 320,
         child: isHero
-            ? Image.asset('assets/images/player/player_idle_right.png') // Ecohero
+            ? Image.asset('assets/images/player/eco_hero_dialogue.png') // Ecohero
             : Image.asset(imagepath), //image path to the respondant of the dialog
       ),
       personSayDirection: isHero ? PersonSayDirection.LEFT : PersonSayDirection.RIGHT,

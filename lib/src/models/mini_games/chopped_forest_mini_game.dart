@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-import '../cut_scene.dart';
 import '../dialog.dart';
 import '../interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';

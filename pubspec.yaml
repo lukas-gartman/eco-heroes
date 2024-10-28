@@ -40,6 +40,32 @@ flutter:
     - assets/images/trash.png
     - assets/images/squirrel.png
     - assets/images/player/player_idle_right.png
-
+    - assets/images/recycling_minigame_background.jpg
+  
     - assets/images/cut_scenes/dirty-city.jpg
     - assets/images/cut_scenes/clean-city.jpg
+
+    - assets/images/maps/trash_picking/ParkArea.tmj
+    - assets/images/maps/trash_picking/tileset.png
+    - assets/images/maps/trash_picking/OutdoorCamping.gif
+    - assets/images/maps/trash_picking/City Prop Tileset update 2.png
+
+
+    - assets/images/maps/chopped_down_forrest/choppedDownForrest.tmj
+    - assets/images/maps/chopped_down_forrest/Forest ground.png
+    - assets/images/maps/chopped_down_forrest/Forest props.png
+    - assets/images/maps/chopped_down_forrest/OutdoorCamping.gif
+    - assets/images/maps/chopped_down_forrest/zeo254-completed-commission.png
+    - assets/images/maps/chopped_down_forrest/tileset.png
+    - assets/images/planted_tree.png
+
+    - assets/images/bins.png
+    - assets/images/trash_objects/egg.png
+    - assets/images/trash_objects/banana.png
+    - assets/images/trash_objects/plastic_bag.png
+    - assets/images/trash_objects/milk.png
+    - assets/images/trash_objects/magazine.png
+    - assets/images/trash_objects/box.png
+    - assets/images/trash_objects/apple.png
+    - assets/images/trash_objects/cup.png
+

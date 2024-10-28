@@ -22,6 +22,8 @@ class GameState extends State<Game> with TickerProviderStateMixin {
   late EcoHeroPlayer player;
   late Ticker _ticker;
 
+  Key bonfireKey = Key(DateTime.now().toString());
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +33,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     miniGame = gameManager.gameSegment.miniGame;
     cutScene = gameManager.gameSegment.cutScene;
     miniGame.start();
-    player = EcoHeroPlayer(Vector2(40, 40));
+    player = EcoHeroPlayer(Vector2(40, 40), collisionAreas: miniGame.collisionAreas);
 
     _ticker = Ticker((elapsed) { // Call update on the mini-game each frame
       miniGame.update(context, player.position); // Update with player's position
@@ -53,9 +55,10 @@ class GameState extends State<Game> with TickerProviderStateMixin {
         child: Stack(
           children: [
             BonfireWidget(
-              key: Key(DateTime.now().toString()), // Force Bonfire to rebuild when the mini-game changes
+              key: bonfireKey, // Force Bonfire to rebuild when the mini-game changes
               playerControllers: [
                 Joystick(directional: JoystickDirectional()),
+                Keyboard(config: KeyboardConfig(directionalKeys: [KeyboardDirectionalKeys.wasd()])),
               ],
               cameraConfig: CameraConfig(zoom: 2),
               map: miniGame.map,
@@ -93,6 +96,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
       cutScene = gameManager.gameSegment.cutScene;
       miniGame = gameManager.gameSegment.miniGame;
       miniGame.start();
+      bonfireKey = Key(DateTime.now().toString());
       player.position = Vector2(40, 40);
     });
   }

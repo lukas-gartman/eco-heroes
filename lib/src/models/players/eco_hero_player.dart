@@ -1,8 +1,10 @@
 import 'package:bonfire/bonfire.dart';
 
 class EcoHeroPlayer extends SimplePlayer {
+  List<Rect>? collisionAreas = [];
+  Vector2 previousPosition = Vector2.zero();
 
-  EcoHeroPlayer(Vector2 position)
+  EcoHeroPlayer(Vector2 position, { this.collisionAreas })
       : super(
           position: position, 
           size: Vector2.all(32),
@@ -10,10 +12,30 @@ class EcoHeroPlayer extends SimplePlayer {
           animation: PlayerSpriteSheet.simpleDirectionAnimation,
       );
 
-   Vector2 getPosition(){
-      print(position);
-      return position;
-   }  
+  Vector2 getPosition() {
+    return position;
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (position.x < 0) position.x = 0;
+    if (position.y < 0) position.y = 0;
+    if (position.x > gameRef.map.getMapSize().x - width)  position.x = gameRef.map.getMapSize().x - width;
+    if (position.y > gameRef.map.getMapSize().y - height) position.y = gameRef.map.getMapSize().y - height;
+
+    if (collisionAreas != null) {
+      for (var area in collisionAreas!) {
+      if (area.containsPoint(position)) {
+        position = previousPosition;
+        break;
+      }
+      }
+    }
+
+    previousPosition = position.clone();
+  }
 }
 
 class PlayerSpriteSheet {

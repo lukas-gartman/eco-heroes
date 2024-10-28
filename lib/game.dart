@@ -93,7 +93,21 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     });
   }
 
-  void onMiniGameSwitch() {
+  void onMiniGameSwitch([bool noMoreGames = false, CutScene? cutScene]) {
+    if (cutScene != null) {
+      Future.microtask(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => cutScene!),
+        );
+      });
+    }
+
+    if (noMoreGames) {
+      print('No more games to play.');
+      return;
+    }
+
     setState(() {
       cutScene = gameManager.gameSegment.cutScene;
       miniGame = gameManager.gameSegment.miniGame;

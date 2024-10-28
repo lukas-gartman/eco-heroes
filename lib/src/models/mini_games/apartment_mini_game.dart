@@ -8,6 +8,7 @@ import '../interactive_object.dart';
 import '../interactive_objects/lamp.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
+import 'quiz_mini_game.dart';
 
 class ApartmentMiniGame extends MiniGame {
   static const double tileSize = 16 * 2;
@@ -98,7 +99,6 @@ class ApartmentMiniGame extends MiniGame {
       proximityRange: proximityRange,
       inProximityWith: ValueNotifier(null),
     );
-
   }
 
   @override
@@ -113,7 +113,14 @@ class ApartmentMiniGame extends MiniGame {
 
     if (_lamps.every((lamp) => !lamp.lampOn) && !isGameCompleted) {
       isGameCompleted = true;
-      TalkDialog.show(context, GameDialog.apartmentEndDialog(), onFinish: () => super.onCompleted());
+      TalkDialog.show(context, GameDialog.apartmentEndDialog(), onFinish: () {
+        Future.microtask(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QuizMiniGame(onQuizMiniGameCompleted: () => super.onCompleted())),
+          );
+        });
+      });
     }
   }
 

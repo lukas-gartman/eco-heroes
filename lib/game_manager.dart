@@ -1,6 +1,7 @@
 import 'package:eco_heroes/src/models/mini_games/apartment_mini_game.dart';
 import 'package:eco_heroes/src/models/mini_games/chopped_forrest_mini_game.dart';
 import 'package:eco_heroes/src/models/mini_games/trash_picking_mini_game.dart';
+import 'package:flutter/material.dart';
 
 import 'src/models/cut_scene.dart';
 import 'src/models/dialog.dart';
@@ -14,7 +15,7 @@ class GameSegment {
 }
 
 class GameManager {
-  final void Function() onMiniGameSwitch;
+  final void Function([bool, CutScene?]) onMiniGameSwitch;
   List<GameSegment> _gameSegments = [];
   late GameSegment _currentGameSegment;
   GameSegment get gameSegment => _currentGameSegment;
@@ -38,6 +39,18 @@ class GameManager {
       onMiniGameSwitch();
     } else {
       print('All mini games completed.');
+      const Widget textWidget = Center(
+        child: Text(
+          'The city has been saved!',
+          style: TextStyle(
+            fontSize: 64,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: [Shadow(offset: Offset(1.5, 1.5), blurRadius: 3.0, color: Colors.black)],
+          ),
+        ),
+      );
+      onMiniGameSwitch(true, CutScene(opacity: 0, dialog: GameDialog.cityIsSavedDialog(), cityHasBeenSaved: true, onScreenWidget: textWidget,));
     }
   }
 }

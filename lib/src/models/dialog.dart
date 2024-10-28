@@ -98,7 +98,14 @@ class GameDialog {
 
   static List<Say> quizEndingDialog() {
     return [
-      _speak(text: "You completed the quiz!", isHero: false, imagepath: 'assets/images/squirrel.png')
+      _speak(text: "You completed the quiz! Well done!", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  static List<Say> cityIsSavedDialog() {
+    return [
+      _speak(text: "Congratulations, Eco Hero! You've not only defeated the Eco Fiend, you also helped create a more sustainable, thriving city. Remember, every little action counts toward making the world a better place!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "Now think about what you can do yourself to keep up with the Sustainable Development Goals 11 and 13!\n\nDiscuss with your friends!\nHave you heard about these goals before? Can you find out what the other goals are about?", isHero: false, imagepath: 'assets/images/squirrel.png'),
     ];
   }
 

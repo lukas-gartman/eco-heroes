@@ -5,12 +5,13 @@ import '../dialog.dart';
 
 class QuizMiniGame extends StatefulWidget {
   final Function? onQuizMiniGameCompleted;
-  const QuizMiniGame({Key? key, this.onQuizMiniGameCompleted}) : super(key: key);
+  const QuizMiniGame({super.key, this.onQuizMiniGameCompleted});
 
-  _QuizMiniGameState createState() => _QuizMiniGameState();
+  @override
+  QuizMiniGameState createState() => QuizMiniGameState();
 }
 
-class _QuizMiniGameState extends State<QuizMiniGame> {
+class QuizMiniGameState extends State<QuizMiniGame> {
   bool hasShownIntroDialog = false;
   int _questionIndex = 0;
   bool correctAnswerSelected = false;
@@ -37,7 +38,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
   }
 
   void _completeQuizMiniGame() {
-    TalkDialog.show(context, GameDialog.quizEndingDialog(), onFinish: () {
+    TalkDialog.show(context, GameDialog.quizEndingDialog(), backgroundColor: Colors.transparent, onFinish: () {
       widget.onQuizMiniGameCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
     });
@@ -72,12 +73,38 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
 
   @override
   Widget build(BuildContext context) {
+    if (_questionIndex >= _questions.length) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/cut_scenes/clean-city.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const Center(
+              child: Text(
+                'Quiz completed!',
+                style: TextStyle(
+                  fontSize: 64,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [Shadow(offset: Offset(1.5, 1.5), blurRadius: 3.0, color: Colors.black)],
+                ),
+              ),
+            ),
+          ],
+        )
+      );
+    }
+
     return Material(
       child: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/cut_scenes/clean-city.jpg',
+              'assets/images/cut_scenes/dirty-city.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -88,8 +115,8 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                 // Question Container
                 Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  padding: EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(50),
@@ -97,7 +124,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                   ),
                   child: Text(
                     _questions[_questionIndex]['question'] as String,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -111,8 +138,8 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                     .map((answer) {
                       return Container(
                         width: MediaQuery.of(context).size.width * 0.6,
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        padding: EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        padding: const EdgeInsets.all(10),
                         child: ElevatedButton(
                           onPressed: () => _selectAnswer(answer['score'] as bool),
                           style: ButtonStyle(
@@ -122,7 +149,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                           ),
                           child: Text(
                             answer['answerText'] as String,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -157,7 +184,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
 }
 
 
-final _questions = const [
+const _questions = [
   {
     'question': 'How long is New Zealand’s Ninety Mile Beach?',
     'answers': [

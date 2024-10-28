@@ -75,6 +75,18 @@ class GameDialog {
     ];
   }
 
+  static List<Say> quizIntroDialog() {
+    return [
+      _speak(text: "Here's a quiz to test you on what you've learned! ", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  static List<Say> quizEndingDialog() {
+    return [
+      _speak(text: "You completed the quiz!", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
   // Helper method to structure the dialog
   static Say _speak({required String text, required bool isHero, required String imagepath}) {
     return Say(

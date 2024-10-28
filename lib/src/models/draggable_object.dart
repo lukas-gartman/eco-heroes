@@ -18,19 +18,7 @@ class DraggableObject extends PositionComponent with DragCallbacks {
   }
 
   @override
-  void onDragStart(DragStartEvent event) {
-    super.onDragStart(event);
-    // Optionally, handle logic when drag starts
-  }
-
-  @override
   void onDragUpdate(DragUpdateEvent event) {
     position += event.localDelta; // Update position as the object is dragged
-  }
-
-  @override
-  void onDragEnd(DragEndEvent event) {
-    super.onDragEnd(event);
-    // Optionally, handle logic when drag ends
   }
 }

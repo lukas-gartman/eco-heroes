@@ -1,5 +1,8 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flame_audio/flame_audio.dart';
+
+
 import '../dialog.dart';
 import '../enums/trash_type.dart';
 import '../interactive_objects/trash.dart';
@@ -56,6 +59,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   void _completeRecyclingGame() {
+    FlameAudio.play('minigame_success.wav');
     TalkDialog.show(context, GameDialog.recyclingEndingDialog(), onFinish: () {
       widget.onRecyclingCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
@@ -63,7 +67,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() { // To calculate the positions of the bins to match every screen
     super.didChangeDependencies();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
@@ -115,10 +119,12 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
 
             if (_isInTargetZone(offset, targetBin)) {
               onSorted(true); // Mark as sorted if in the correct bin
+              FlameAudio.play('success.wav');
               _showFeedback("Correct bin, good job!", Colors.white); // Change this to make a sound instead
             } else if (_isInTargetZone(offset, paperBin) ||
                 _isInTargetZone(offset, plasticBin) ||
                 _isInTargetZone(offset, compostBin)) {
+              FlameAudio.play('wrong.mp3');
               _showFeedback("Wrong bin, try again!", Colors.red);
               onResetPosition(trashOffset.initialPosition); // Reset to original position
             } else {

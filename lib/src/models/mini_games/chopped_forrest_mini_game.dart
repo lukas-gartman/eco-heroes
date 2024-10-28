@@ -2,13 +2,13 @@ import 'dart:math';
 import 'package:eco_heroes/src/models/interactive_objects/hole.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../dialog.dart';
 import '../interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
 import '../mini_game.dart';
 import '../proximity_checker.dart';
-
 class ChoppedForrestMiniGame extends MiniGame {
   static const double tileSize = 16;
   static const double mapWidth = 640;
@@ -36,7 +36,7 @@ class ChoppedForrestMiniGame extends MiniGame {
 
   @override
   List<GameObject> get objects => combinedList; //Changed to combinedList from trashCans
-
+  
   @override
   Vector2 get playerStartPosition => Vector2(300, 300);
   
@@ -98,7 +98,7 @@ class ChoppedForrestMiniGame extends MiniGame {
     //Create a combined list with trashcans and NPCs
     combinedList.addAll(squirrels);
     combinedList.addAll(holes);
-    
+
     super.proximityChecker = ProximityChecker(
       objects: combinedList,
       proximityRange: proximityRange,
@@ -112,7 +112,6 @@ class ChoppedForrestMiniGame extends MiniGame {
     if (isStart) {
       isStart = false;
       //Change intro dialogue 
-      
       TalkDialog.show(context, GameDialog.plantingIntroDialogue());
       return;
     }
@@ -121,7 +120,7 @@ class ChoppedForrestMiniGame extends MiniGame {
     if (plantedSeeds == numberOfHoles) {
       
       isCompleted = true;
-      
+      FlameAudio.play('minigame_success.wav');
       TalkDialog.show(context, GameDialog.plantingEndDialog(), onFinish: () => super.onCompleted());
     }
   }
@@ -173,7 +172,7 @@ class ChoppedForrestMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object)  {
     if (object is Hole) {
-
+      FlameAudio.play('success.wav');
       object.interact();
       proximityChecker.removeObject(object);
       plantedSeeds++;

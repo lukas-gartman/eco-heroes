@@ -1,5 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flame_audio/flame_audio.dart';
+
 import '../dialog.dart';
 //inspired by https://www.geeksforgeeks.org/basic-quiz-app-in-flutter-api/
 
@@ -17,7 +19,6 @@ class QuizMiniGameState extends State<QuizMiniGame> {
   bool correctAnswerSelected = false;
   String feedbackMessage = '';
   Color feedbackColor = Colors.transparent;
-
   @override
   void initState() {
     super.initState();
@@ -61,7 +62,11 @@ class QuizMiniGameState extends State<QuizMiniGame> {
       feedbackMessage = isCorrect ? '' : 'Wrong answer, try again';
       feedbackColor = isCorrect ? Colors.transparent : Colors.red;
       if (isCorrect) {
+         FlameAudio.play('success.wav');
         _nextQuestion();
+      }
+      else{
+        FlameAudio.play('wrong.mp3');
       }
     });
     Future.delayed(const Duration(seconds: 3), () {

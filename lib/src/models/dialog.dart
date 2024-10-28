@@ -66,7 +66,7 @@ class GameDialog {
     return [
       _speak(text: "Good job Eco Hero! You've saved the house from the Eco Fiend's waste!", isHero: false, imagepath: 'assets/images/squirrel.png'),
       _speak(text: "By saving energy and water, you're helping Goal 11 again—keeping cities sustainable and resources protected for everyone.", isHero: false, imagepath: 'assets/images/squirrel.png'),
-    ]
+    ];
   }
   
   static List<Say> plantingIntroDialogue() {

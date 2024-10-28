@@ -54,6 +54,21 @@ class GameDialog {
     ];
   }
 
+  static List<Say> apartmentIntroDialog() {
+    return [
+      _speak(text: "You may have won the park and forest, but now I'll waste all the energy and water in this house! Let's see how you fix this!", isHero: false, imagepath: 'assets/images/player/player_idle_right.png'),
+      _speak(text: "Eco Hero, the Eco Fiend is wasting energy and water! We need your help to turn off everything we don't need!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "No problem! Conserving energy and water is part of keeping cities sustainable. Let's stop the waste and save resources.", isHero: true, imagepath: 'assets/images/player/player_run_right.png'),
+    ];
+  }
+
+  static List<Say> apartmentEndDialog() {
+    return [
+      _speak(text: "Good job Eco Hero! You've saved the house from the Eco Fiend's waste!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "By saving energy and water, you're helping Goal 11 again—keeping cities sustainable and resources protected for everyone.", isHero: false, imagepath: 'assets/images/squirrel.png'),
+    ];
+  }
+  
   static List<Say> plantingIntroDialogue() {
     return [
       _speak(text: "Oh you're here eco hero! The evil eco fiend cut down all the trees!", isHero: false, imagepath: 'assets/images/squirrel.png'),
@@ -83,7 +98,14 @@ class GameDialog {
 
   static List<Say> quizEndingDialog() {
     return [
-      _speak(text: "You completed the quiz!", isHero: false, imagepath: 'assets/images/squirrel.png')
+      _speak(text: "You completed the quiz! Well done!", isHero: false, imagepath: 'assets/images/squirrel.png')
+    ];
+  }
+
+  static List<Say> cityIsSavedDialog() {
+    return [
+      _speak(text: "Congratulations, Eco Hero! You've not only defeated the Eco Fiend, you also helped create a more sustainable, thriving city. Remember, every little action counts toward making the world a better place!", isHero: false, imagepath: 'assets/images/squirrel.png'),
+      _speak(text: "Now think about what you can do yourself to keep up with the Sustainable Development Goals 11 and 13!\n\nDiscuss with your friends!\nHave you heard about these goals before? Can you find out what the other goals are about?", isHero: false, imagepath: 'assets/images/squirrel.png'),
     ];
   }
 

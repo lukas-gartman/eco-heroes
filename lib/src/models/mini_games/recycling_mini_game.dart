@@ -19,9 +19,8 @@ class RecyclingMinigame extends StatefulWidget {
 
 class RecyclingMinigameState extends State<RecyclingMinigame> {
   late List<Trash> trashObjects;
+  late List<TrashOffset> trashOffsets;
   late Rect paperBin, plasticBin, compostBin;
-  late List<Offset> trashPositions;
-  late List<int> sortedTrash;
 
   bool hasShownIntroDialog = false; // This will track whether the intro dialog has been shown
   String feedbackMessage = '';
@@ -33,8 +32,15 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
     super.initState();
 
     trashObjects = widget.trashObjects..shuffle();
-    trashPositions = List.generate(trashObjects.length, (index) => Offset((index * 0.04), (index % 2 == 0 ? 0.75 : 0.85)));
-    sortedTrash = [];
+    trashOffsets = [];
+    for (int i = 0; i < trashObjects.length; i++) {
+      trashOffsets.add(TrashOffset(
+        id: i+1,
+        trash: trashObjects[i],
+        imagePath: "assets/images/${trashObjects[i].spriteSrc}",
+        initialPosition: Offset((i * 0.04), (i % 2 == 0 ? 0.75 : 0.85)),
+      ));
+    }
 
     // Show the intro dialog when the widget is initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -53,6 +59,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   void _completeRecyclingGame() {
+    FlameAudio.play('minigame_success.wav');
     TalkDialog.show(context, GameDialog.recyclingEndingDialog(), onFinish: () {
       widget.onRecyclingCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
@@ -87,27 +94,25 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   Widget _buildDraggableItem({
-    required Offset position,
-    required String imagePath,
+    required TrashOffset trashOffset,
     required Rect targetBin,
-    required Offset initialPosition,
     required ValueSetter<Offset> onResetPosition,
     required ValueSetter<bool> onSorted,
-    required bool isSorted,
   }) {
-    if (isSorted) return const SizedBox(); // Hide the item if it’s sorted
+    if (trashOffset.isSorted) return const SizedBox(); // Hide the item if it’s sorted
 
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Positioned(
-      left: screenWidth * position.dx,
-      top: screenHeight * position.dy,
-      child: Draggable<Offset>(
-        data: position,
-        feedback: Image.asset(imagePath, width: 80, height: 80),
+      left: screenWidth * trashOffset.position.dx,
+      top: screenHeight * trashOffset.position.dy,
+      child: Draggable<int>(
+        key: ValueKey(trashOffset.id),
+        data: trashOffset.id,
+        feedback: Image.asset(trashOffset.imagePath, width: 80, height: 80),
         onDragStarted: () => setState(() => showDropZone = true),
-        childWhenDragging: Container(),
+        childWhenDragging: const SizedBox.shrink(),
         onDraggableCanceled: (velocity, offset) {
           setState(() {
             showDropZone = false;
@@ -121,23 +126,33 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
                 _isInTargetZone(offset, compostBin)) {
               FlameAudio.play('wrong.mp3');
               _showFeedback("Wrong bin, try again!", Colors.red);
-              onResetPosition(initialPosition); // Reset to original position
+              onResetPosition(trashOffset.initialPosition); // Reset to original position
             } else {
-              onResetPosition(initialPosition); // Reset to original position if dropped outside all bins
+              onResetPosition(trashOffset.initialPosition); // Reset to original position if dropped outside all bins
             }
 
             _checkGameCompletion(); // Check if all items have been sorted
           });
         },
-        child: Image.asset(imagePath, width: 80, height: 80),
+        child: Image.asset(trashOffset.imagePath, width: 80, height: 80),
       ),
     );
   }
 
   void _checkGameCompletion() {
-    if (sortedTrash.length == trashObjects.length) {
-      FlameAudio.play('minigame_success.wav');
+    if (trashOffsets.every((trashOffset) => trashOffset.isSorted)) {
       _completeRecyclingGame(); // Trigger the callback if all items are sorted
+    }
+  }
+
+  Rect _getTargetBin(TrashType type) {
+    switch (type) {
+      case TrashType.paper:
+        return paperBin;
+      case TrashType.plastic:
+        return plasticBin;
+      case TrashType.compost:
+        return compostBin;
     }
   }
 
@@ -193,36 +208,28 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
             ),
           ],
 
-          ...trashObjects.asMap().entries.map((entry) {
-            int index = entry.key;
-            Trash trash = entry.value;
-            Offset initialPosition = trashPositions[index];
-
-            Rect targetBin;
-            switch (trash.trashType) {
-              case TrashType.paper:
-                targetBin = paperBin;
-                break;
-              case TrashType.plastic:
-                targetBin = plasticBin;
-                break;
-              case TrashType.compost:
-                targetBin = compostBin;
-                break;
-            }
-
-            return _buildDraggableItem(
-              position: initialPosition,
-              imagePath: "assets/images/${trash.spriteSrc}",
-              targetBin: targetBin,
-              initialPosition: initialPosition,
-              onResetPosition: (newPosition) => setState(() => trashPositions[index] = newPosition),
-              onSorted: (sorted) => setState(() { if (sorted) sortedTrash.add(index); }),
-              isSorted: sortedTrash.contains(index),
-            );
-          }),
+          for (int index = 0; index < trashOffsets.length; index++) ...[
+            _buildDraggableItem(
+              trashOffset: trashOffsets[index],
+              targetBin: _getTargetBin(trashOffsets[index].trash.trashType),
+              onResetPosition: (newPosition) => setState(() => trashOffsets[index].position = newPosition),
+              onSorted: (sorted) => setState(() { if (sorted) trashOffsets[index].isSorted = true; }),
+            ),
+          ],
         ],
       ),
     );
   }
+}
+
+class TrashOffset {
+  final int id;
+  final Trash trash;
+  final String imagePath;
+  final Offset initialPosition;
+  Offset position;
+  bool isSorted;
+
+  TrashOffset({ required this.id, required this.trash, required this.imagePath, required this.initialPosition})
+    : position = initialPosition, isSorted = false;
 }

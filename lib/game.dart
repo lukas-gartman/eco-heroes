@@ -32,9 +32,10 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     gameManager.init();
     miniGame = gameManager.gameSegment.miniGame;
     cutScene = gameManager.gameSegment.cutScene;
+    player = EcoHeroPlayer(miniGame.playerStartPosition, collisionAreas: miniGame.collisionAreas);
     miniGame.start();
     player = EcoHeroPlayer(Vector2(40, 40), collisionAreas: miniGame.collisionAreas);
-    
+
     _ticker = Ticker((elapsed) { // Call update on the mini-game each frame
       miniGame.update(context, player.position); // Update with player's position
     });
@@ -64,6 +65,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
               map: miniGame.map,
               player: player,
               components: miniGame.objects,
+              lightingColorGame: miniGame.lighting,
               onReady: (value) => {
                 if (cutScene != null) ...[
                   showDialog(context: context, builder: (BuildContext context) {
@@ -72,6 +74,7 @@ class GameState extends State<Game> with TickerProviderStateMixin {
                 ],
               },
             ),
+            
             ValueListenableBuilder<InteractiveObject?>(
               valueListenable: miniGame.proximityChecker.inProximityWith,
               builder: (context, nearbyObject, _) {
@@ -91,13 +94,27 @@ class GameState extends State<Game> with TickerProviderStateMixin {
     });
   }
 
-  void onMiniGameSwitch() {
+  void onMiniGameSwitch([bool noMoreGames = false, CutScene? cutScene]) {
+    if (cutScene != null) {
+      Future.microtask(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => cutScene!),
+        );
+      });
+    }
+
+    if (noMoreGames) {
+      print('No more games to play.');
+      return;
+    }
+
     setState(() {
       cutScene = gameManager.gameSegment.cutScene;
       miniGame = gameManager.gameSegment.miniGame;
       miniGame.start();
+      player = EcoHeroPlayer(miniGame.playerStartPosition, collisionAreas: miniGame.collisionAreas);
       bonfireKey = Key(DateTime.now().toString());
-      player.position = Vector2(40, 40);
     });
   }
 

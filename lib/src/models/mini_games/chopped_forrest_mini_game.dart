@@ -13,7 +13,7 @@ class ChoppedForrestMiniGame extends MiniGame {
   static const double tileSize = 16;
   static const double mapWidth = 640;
   static const double mapHeight = 640;
-  static const int numberOfHoles = 8; //Not dynamic in this, if this is changed remember to change in method generateHoles();
+  static const int numberOfHoles = 8;
 
   late List<Hole> holes;
   late List<SquirrelNPC> squirrels;
@@ -32,10 +32,62 @@ class ChoppedForrestMiniGame extends MiniGame {
   ChoppedForrestMiniGame(super.onCompleted);
 
   @override
+  GameMap get map => _showMap1 ? _map1 : _map2;
+
+  @override
   List<GameObject> get objects => combinedList; //Changed to combinedList from trashCans
   
   @override
-  GameMap get map => _showMap1 ? _map1 : _map2;
+  Vector2 get playerStartPosition => Vector2(300, 300);
+  
+  @override
+  List<Rect> get collisionAreas => [
+    // Top left grass
+    const Rect.fromLTRB(16, 0, 60, 15),
+    const Rect.fromLTRB(65, 22, 110, 46),
+    const Rect.fromLTRB(5, 86, 50, 114),
+    const Rect.fromLTRB(75, 99, 125, 125),
+    const Rect.fromLTRB(10, 210, 60, 238),
+    const Rect.fromLTRB(115, 197, 160, 220),
+    const Rect.fromLTRB(185, 207, 228, 238),
+    const Rect.fromLTRB(150, 86, 190, 115),
+    const Rect.fromLTRB(200, 83, 246, 110),
+    const Rect.fromLTRB(170, 5, 216, 32),
+
+    // Top right grass
+    const Rect.fromLTRB(373, 50, 406, 75),
+    const Rect.fromLTRB(480, 0, 520, 9),
+    const Rect.fromLTRB(462, 51, 487, 76),
+    const Rect.fromLTRB(546, 62, 583, 90),
+    const Rect.fromLTRB(589, 15, 640, 47),
+    const Rect.fromLTRB(381, 131, 412, 156),
+    const Rect.fromLTRB(439, 159, 466, 188),
+    const Rect.fromLTRB(544, 132, 571, 154),
+    const Rect.fromLTRB(356, 223, 389, 251),
+    const Rect.fromLTRB(494, 225, 523, 251),
+    const Rect.fromLTRB(566, 227, 596, 249),
+
+    // Bottom left grass
+    const Rect.fromLTRB(14, 351, 58, 389),
+    const Rect.fromLTRB(138, 335, 174, 369),
+    const Rect.fromLTRB(203, 363, 251, 400),
+    const Rect.fromLTRB(6, 428, 48, 470),
+    const Rect.fromLTRB(106, 429, 159, 470),
+    const Rect.fromLTRB(184, 458, 225, 502),
+    const Rect.fromLTRB(47, 555, 92, 596),
+    const Rect.fromLTRB(152, 541, 194, 578),
+    const Rect.fromLTRB(224, 540, 262, 583),
+
+    // Bottom right grass
+    const Rect.fromLTRB(385, 347, 427, 384),
+    const Rect.fromLTRB(490, 351, 526, 384),
+    const Rect.fromLTRB(578, 383, 640, 416),
+    const Rect.fromLTRB(364, 449, 398, 482),
+    const Rect.fromLTRB(445, 429, 489, 466),
+    const Rect.fromLTRB(397, 525, 443, 558),
+    const Rect.fromLTRB(507, 560, 543, 594),
+    const Rect.fromLTRB(590, 523, 640, 565),
+  ];
 
   @override
   void start() {
@@ -74,19 +126,34 @@ class ChoppedForrestMiniGame extends MiniGame {
   }
 
   List<Hole> generateHoles() {
+    List<Hole> holeList = [];
 
-    //To save time for submission, statically generate 8 positions of Holes
+    bool isValidPosition(Vector2 position) {
+      List<Rect> dirtPathAreas = [
+        const Rect.fromLTRB(268, 0, 344, 640),
+        const Rect.fromLTRB(0, 255, 640, 341),
+      ];
 
-    final List<Hole> holeList = [];
+      bool isFarFromObjects = holeList.every((obj) => position.distanceTo(obj.position) >= proximityRange * 2);
+      bool isOutsideCollisionAreas = collisionAreas.every((rect) => !rect.inflate(proximityRange).contains(position.toOffset()));
+      bool isOutsideDirtPathAreas = dirtPathAreas.every((rect) => !rect.contains(position.toOffset()));
+      
+      return isFarFromObjects && isOutsideCollisionAreas && isOutsideDirtPathAreas;
+    }
 
-    holeList.add(Hole(position: Vector2(71, 145)));
-    holeList.add(Hole(position: Vector2(184, 240)));
-    holeList.add(Hole(position: Vector2(112, 466)));
-    holeList.add(Hole(position: Vector2(458, 132)));
-    holeList.add(Hole(position: Vector2(501, 381)));
-    holeList.add(Hole(position: Vector2(239, 534)));
-    holeList.add(Hole(position: Vector2(398, 231)));
-    holeList.add(Hole(position: Vector2(555, 472)));
+    Vector2 generateRandomPosition() {
+      final random = Random();
+      Vector2 position;
+      do {
+        position = Vector2(random.nextDouble() * (mapWidth - proximityRange), random.nextDouble() * (mapHeight - proximityRange));
+      } while (!isValidPosition(position));
+
+      return position;
+    }
+
+    for (int i = 0; i < numberOfHoles; i++) {
+      holeList.add(Hole(position: generateRandomPosition()));
+    }
 
     return holeList;
   }

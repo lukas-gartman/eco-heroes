@@ -7,12 +7,13 @@ import '../dialog.dart';
 
 class QuizMiniGame extends StatefulWidget {
   final Function? onQuizMiniGameCompleted;
-  const QuizMiniGame({Key? key, this.onQuizMiniGameCompleted}) : super(key: key);
+  const QuizMiniGame({super.key, this.onQuizMiniGameCompleted});
 
-  _QuizMiniGameState createState() => _QuizMiniGameState();
+  @override
+  QuizMiniGameState createState() => QuizMiniGameState();
 }
 
-class _QuizMiniGameState extends State<QuizMiniGame> {
+class QuizMiniGameState extends State<QuizMiniGame> {
   bool hasShownIntroDialog = false;
   int _questionIndex = 0;
   bool correctAnswerSelected = false;
@@ -38,8 +39,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
   }
 
   void _completeQuizMiniGame() {
-    FlameAudio.play('minigame_success.wav');
-    TalkDialog.show(context, GameDialog.quizEndingDialog(), onFinish: () {
+    TalkDialog.show(context, GameDialog.quizEndingDialog(), backgroundColor: Colors.transparent, onFinish: () {
       widget.onQuizMiniGameCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
     });
@@ -78,12 +78,38 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
 
   @override
   Widget build(BuildContext context) {
+    if (_questionIndex >= _questions.length) {
+      return Scaffold(
+        body: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/cut_scenes/clean-city.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            const Center(
+              child: Text(
+                'Quiz completed!',
+                style: TextStyle(
+                  fontSize: 64,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [Shadow(offset: Offset(1.5, 1.5), blurRadius: 3.0, color: Colors.black)],
+                ),
+              ),
+            ),
+          ],
+        )
+      );
+    }
+
     return Material(
       child: Stack(
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/cut_scenes/clean-city.jpg',
+              'assets/images/cut_scenes/dirty-city.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -94,8 +120,8 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                 // Question Container
                 Container(
                   width: MediaQuery.of(context).size.width * 0.8,
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  padding: EdgeInsets.all(20),
+                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(50),
@@ -103,7 +129,7 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                   ),
                   child: Text(
                     _questions[_questionIndex]['question'] as String,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
@@ -112,35 +138,33 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
                   ),
                 ),
                 // Answer Buttons with Black Text
-                ...(_questions[_questionIndex]['answers']
-                        as List<Map<String, Object>>)
-                    .map((answer) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        margin: EdgeInsets.symmetric(vertical: 10),
-                        padding: EdgeInsets.all(10),
-                        child: ElevatedButton(
-                          onPressed: () => _selectAnswer(answer['score'] as bool),
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                              Colors.white,
-                            ),
-                          ),
-                          child: Text(
-                            answer['answerText'] as String,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                ...(_questions[_questionIndex]['answers'] as List<Map<String, Object>>).map((answer) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      onPressed: () => _selectAnswer(answer['score'] as bool),
+                      style: ButtonStyle(
+                        backgroundColor: WidgetStateProperty.all<Color>(
+                          Colors.white,
                         ),
-                      );
-                    }).toList(),
-            ],
+                      ),
+                      child: Text(
+                        answer['answerText'] as String,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
           ),
-        ),
           Align( // could change to sounds instead.
             alignment: Alignment.topCenter,
             child: Padding(
@@ -155,7 +179,6 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -163,79 +186,45 @@ class _QuizMiniGameState extends State<QuizMiniGame> {
 }
 
 
-final _questions = const [
+const _questions = [
   {
-    'question': 'How long is New Zealand’s Ninety Mile Beach?',
+    'question': "Why shouldn't you throw your trash in nature?",
     'answers': [
-      {'answerText': '88km, so 55 miles long.', 'score': true},
-      {'answerText': '55km, so 34 miles long.', 'score': false},
-      {'answerText': '90km, so 56 miles long.', 'score': false},
+      {'answerText': "The trash might get hungry and eat all the flowers.", 'score': false},
+      {'answerText': "The trash can harm animals, plants and trees.", 'score': true},
+      {'answerText': "The trash does not like the nature.", 'score': false},
     ],
   },
   {
-    'question':
-        'In which month does the German festival of Oktoberfest mostly take place?',
+    'question': "What is the best thing you can do with trash you find on the ground?",
     'answers': [
-      {'answerText': 'January', 'score': false},
-      {'answerText': 'October', 'score': false},
-      {'answerText': 'September', 'score': true},
+      {'answerText': "Hide it under a rock so no one sees it.", 'score': false},
+      {'answerText': "Recycle it.", 'score': true},
+      {'answerText': "Collect it and keep it at home.", 'score': false},
     ],
   },
   {
-    'question': 'Who composed the music for Sonic the Hedgehog 3?',
+    'question': "What can happen if you cut down too many trees?",
     'answers': [
-      {'answerText': 'Britney Spears', 'score': false},
-      {'answerText': 'Timbaland', 'score': false},
-      {'answerText': 'Michael Jackson', 'score': true},
+      {'answerText': "The air quality gets worse since there are no trees to absorb carbon dioxide.", 'score': true},
+      {'answerText': "Trees grow back instantly, so it doesn't matter.", 'score': false},
+      {'answerText': "The sky will turn green to compensate for the trees.", 'score': false},
     ],
   },
   {
-    'question': 'In Georgia (the state), it’s illegal to eat what with a fork?',
+    'question': "How can you save electricity in your home?",
     'answers': [
-      {'answerText': 'Hamburgers', 'score': false},
-      {'answerText': 'Fried chicken', 'score': true},
-      {'answerText': 'Pizza', 'score': false},
+      {'answerText': "Turn off lamps and electronics when they're not used.", 'score': true},
+      {'answerText': "Clean the house, because a clean house uses less electricity.", 'score': false},
+      {'answerText': "Keep all your windows open all day and night.", 'score': false},
     ],
   },
   {
-    'question':
-        'Which part of his body did musician Gene Simmons from Kiss insure for one million dollars?',
+    'question': "Why is it important to save electricity?",
     'answers': [
-      {'answerText': 'His tongue', 'score': true},
-      {'answerText': 'His leg', 'score': false},
-      {'answerText': 'His butt', 'score': false},
-    ],
-  },
-  {
-    'question': 'In which country are Panama hats made?',
-    'answers': [
-      {'answerText': 'Ecuador', 'score': true},
-      {'answerText': 'Panama (duh)', 'score': false},
-      {'answerText': 'Portugal', 'score': false},
-    ],
-  },
-  {
-    'question': 'From which country do French fries originate?',
-    'answers': [
-      {'answerText': 'Belgium', 'score': true},
-      {'answerText': 'France (duh)', 'score': false},
-      {'answerText': 'Switzerland', 'score': false},
-    ],
-  },
-  {
-    'question': 'Which sea creature has three hearts?',
-    'answers': [
-      {'answerText': 'Great White Sharks', 'score': false},
-      {'answerText': 'Killer Whales', 'score': false},
-      {'answerText': 'The Octopus', 'score': true},
-    ],
-  },
-  {
-    'question': 'Which European country eats the most chocolate per capita?',
-    'answers': [
-      {'answerText': 'Belgium', 'score': false},
-      {'answerText': 'The Netherlands', 'score': false},
-      {'answerText': 'Switzerland', 'score': true},
+      {'answerText': "Saving energy is part of keeping cities sustainable and saving resources.", 'score': true},
+      {'answerText': "To make the internet faster.", 'score': false},
+      {'answerText': "To make sure our lights shine brighter than the stars.", 'score': false},
     ],
   },
 ];

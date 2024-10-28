@@ -41,7 +41,7 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   List<GameObject> get objects => interactableObjects;
   @override
-  List<Rect>? get collisionAreas => [];
+  List<Rect> get collisionAreas => [];
 
   TrashPickingMiniGame(super.onCompleted);
 
@@ -102,7 +102,9 @@ class TrashPickingMiniGame extends MiniGame {
 
     bool isValidPosition(Vector2 position) {
       List<InteractiveObject> allObjects = [recyclingBins, ...objects];
-      return allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      bool isFarFromObjects = allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      bool isOutsideCollisionAreas = collisionAreas.every((rect) => !rect.contains(position.toOffset()));
+      return isFarFromObjects && isOutsideCollisionAreas;
     }
 
     Vector2 generateRandomPosition() {

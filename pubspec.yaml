@@ -69,3 +69,7 @@ flutter:
     - assets/images/trash_objects/apple.png
     - assets/images/trash_objects/cup.png
 
+    - assets/images/maps/apartment/apartment.tmj
+    - assets/images/maps/apartment/1024-1092.jpg
+    - assets/images/lamps/floor-lamp.png
+    - assets/images/lamps/table-lamp.png

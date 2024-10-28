@@ -4,7 +4,8 @@ enum InteractionType {
   interact,
   clean,
   talk,
-  recycle;
+  recycle,
+  onOff;
 
   String get buttonText {
     switch (this) {
@@ -16,6 +17,8 @@ enum InteractionType {
         return 'Talk';
       case InteractionType.recycle:
         return 'Recycle';
+      case InteractionType.onOff:
+        return 'Turn On/Off';
     }
   }
 
@@ -29,6 +32,8 @@ enum InteractionType {
         return const Icon(Icons.chat);
       case InteractionType.recycle:
         return const Icon(Icons.recycling);
+      case InteractionType.onOff:
+        return const Icon(Icons.lightbulb);
     }
   }
 }

@@ -41,7 +41,17 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   List<GameObject> get objects => interactableObjects;
   @override
-  List<Rect>? get collisionAreas => [];
+  List<Rect> get collisionAreas => [
+    const Rect.fromLTRB(99, 86, 192, 182),   // Top water
+    const Rect.fromLTRB(413, 402, 518, 507), // Bottom water
+    const Rect.fromLTRB(90, 443, 117, 484),  // Bottom left bench
+    const Rect.fromLTRB(139, 443, 171, 476), // Bottom fire
+    const Rect.fromLTRB(190, 441, 213, 482), // Bottom right bench
+    const Rect.fromLTRB(393, 110, 422, 144), // Top left bench 
+    const Rect.fromLTRB(445, 102, 474, 140), // Top fire
+    const Rect.fromLTRB(495, 103, 516, 145), // Top right bench
+    const Rect.fromLTRB(168, 229, 236, 266), // Recycling bins
+  ];
 
   TrashPickingMiniGame(super.onCompleted);
 
@@ -102,7 +112,9 @@ class TrashPickingMiniGame extends MiniGame {
 
     bool isValidPosition(Vector2 position) {
       List<InteractiveObject> allObjects = [recyclingBins, ...objects];
-      return allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      bool isFarFromObjects = allObjects.every((obj) => position.distanceTo(obj.position) >= proximityRange);
+      bool isOutsideCollisionAreas = collisionAreas.every((rect) => !rect.contains(position.toOffset()));
+      return isFarFromObjects && isOutsideCollisionAreas;
     }
 
     Vector2 generateRandomPosition() {

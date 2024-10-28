@@ -41,6 +41,8 @@ class TrashPickingMiniGame extends MiniGame {
   @override
   List<GameObject> get objects => interactableObjects;
   @override
+  Vector2 get playerStartPosition => Vector2(300, 300);
+  @override
   List<Rect> get collisionAreas => [
     const Rect.fromLTRB(99, 86, 192, 182),   // Top water
     const Rect.fromLTRB(413, 402, 518, 507), // Bottom water
@@ -140,7 +142,7 @@ class TrashPickingMiniGame extends MiniGame {
 
   List<SquirrelNPC> generateNPCs(){
     final List<SquirrelNPC> squirrelList = [];
-    SquirrelNPC squirrel = SquirrelNPC(position: Vector2(100, 100));
+    SquirrelNPC squirrel = SquirrelNPC(position: Vector2(375, 300));
     squirrelList.add(squirrel);
     return squirrelList;
   }

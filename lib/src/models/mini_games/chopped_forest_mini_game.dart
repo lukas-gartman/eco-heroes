@@ -3,6 +3,7 @@ import 'package:eco_heroes/src/models/interactive_objects/hole.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../cut_scene.dart';
 import '../dialog.dart';
@@ -33,7 +34,7 @@ class ChoppedForestMiniGame extends MiniGame {
 
   @override
   List<GameObject> get objects => combinedList;
-
+  
   @override
   Vector2 get playerStartPosition => Vector2(300, 300);
   
@@ -94,7 +95,7 @@ class ChoppedForestMiniGame extends MiniGame {
     
     combinedList.addAll(squirrels);
     combinedList.addAll(holes);
-    
+
     super.proximityChecker = ProximityChecker(
       objects: combinedList,
       proximityRange: proximityRange,
@@ -117,6 +118,7 @@ class ChoppedForestMiniGame extends MiniGame {
 
     if (plantedSeeds >= numberOfHoles) {
       isCompleted = true;
+      FlameAudio.play('minigame_success.wav');
       TalkDialog.show(context, GameDialog.plantingEndDialog(), onFinish: () => super.onCompleted());
     }
   }
@@ -165,7 +167,7 @@ class ChoppedForestMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object) {
     if (object is Hole) {
-
+      FlameAudio.play('success.wav');
       object.interact();
       proximityChecker.removeObject(object);
       plantedSeeds++;

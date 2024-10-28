@@ -2,6 +2,7 @@ import 'package:eco_heroes/src/models/interactive_objects/lamps/floor_lamp.dart'
 import 'package:eco_heroes/src/models/interactive_objects/lamps/table_lamp.dart';
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 import '../dialog.dart';
 import '../interactive_object.dart';
@@ -115,6 +116,8 @@ class ApartmentMiniGame extends MiniGame {
 
     if (_lamps.every((lamp) => !lamp.lampOn) && !isGameCompleted) {
       isGameCompleted = true;
+      FlameAudio.play('minigame_success.wav');
+
       TalkDialog.show(context, GameDialog.apartmentEndDialog(), onFinish: () {
         Future.microtask(() {
           Navigator.push(
@@ -129,6 +132,7 @@ class ApartmentMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object) {
     if (object is InteractiveObject) {
+      FlameAudio.play('switch.wav');
       object.interact();
     }
   }

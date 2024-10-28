@@ -1,3 +1,4 @@
+import 'package:eco_heroes/src/models/mini_games/apartment_mini_game.dart';
 import 'package:eco_heroes/src/models/mini_games/trash_picking_mini_game.dart';
 
 import 'src/models/cut_scene.dart';
@@ -22,7 +23,7 @@ class GameManager {
   void init() {
     _gameSegments = [
       GameSegment(cutScene: CutScene(opacity: 50, dialog: GameDialog.introDialog()), miniGame: TrashPickingMiniGame(onMiniGameCompleted)),
-      GameSegment(cutScene: CutScene(opacity: 15, dialog: GameDialog.introDialog()), miniGame: TrashPickingMiniGame(onMiniGameCompleted)),
+      GameSegment(cutScene: CutScene(opacity: 15, dialog: GameDialog.introDialog()), miniGame: ApartmentMiniGame(onMiniGameCompleted)),
     ];
 
     _currentGameSegment = _gameSegments.removeAt(0);

@@ -1,16 +1,15 @@
 import 'dart:math';
-import 'package:eco_heroes/src/models/interactive_objects/hole.dart';
+import 'package:eco_heroes/interactive_objects/hole.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
 
-import '../cut_scene.dart';
-import '../dialog.dart';
-import '../interactive_object.dart';
+import '../helpers/dialog.dart';
+import '../interactive_objects/interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
-import '../mini_game.dart';
-import '../proximity_checker.dart';
+import 'mini_game.dart';
+import '../services/proximity_checker.dart';
 
 class ChoppedForestMiniGame extends MiniGame {
   static const double tileSize = 16;

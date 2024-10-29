@@ -27,6 +27,8 @@ flutter:
   uses-material-design: true # includes Material Icons font
 
   assets:
+    - assets/images/home_background.png
+
     - assets/images/eco-heroes.tmj
     - assets/images/spr_tileset_sunnysideworld_16px.png
     - assets/images/player/knight_run.png

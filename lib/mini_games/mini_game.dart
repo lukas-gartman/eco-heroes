@@ -1,8 +1,8 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/cut_scene.dart';
+import 'package:eco_heroes/widgets/cut_scene.dart';
 import 'package:flutter/material.dart';
 
-import 'proximity_checker.dart';
+import '../services/proximity_checker.dart';
 
 abstract class MiniGame {
   final void Function() onCompleted;

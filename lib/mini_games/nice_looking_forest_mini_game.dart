@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
 
-import '../dialog.dart';
-import '../mini_game.dart';
-import '../proximity_checker.dart';
+import '../helpers/dialog.dart';
+import 'mini_game.dart';
+import '../services/proximity_checker.dart';
 
 class NiceLookingForestMiniGame extends MiniGame {
   static const double tileSize = 16;

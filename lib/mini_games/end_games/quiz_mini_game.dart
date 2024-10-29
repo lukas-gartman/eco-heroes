@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import '../../dialog.dart';
+import '../../helpers/dialog.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 //inspired by https://www.geeksforgeeks.org/basic-quiz-app-in-flutter-api/

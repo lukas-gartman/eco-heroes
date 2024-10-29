@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 
-import '../interactive_object.dart';
+import 'interactive_object.dart';
 import '../enums/interaction_type.dart';
 
 abstract class Lamp extends InteractiveObject {

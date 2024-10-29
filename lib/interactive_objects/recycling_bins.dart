@@ -1,7 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 
 import '../enums/interaction_type.dart';
-import '../interactive_object.dart';
+import 'interactive_object.dart';
 
 class RecyclingBins extends InteractiveObject {
   @override

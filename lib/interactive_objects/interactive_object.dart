@@ -1,5 +1,5 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/enums/interaction_type.dart';
+import 'package:eco_heroes/enums/interaction_type.dart';
 
 abstract class InteractiveObject extends GameDecoration with Sensor {
   InteractionType get interactionType;

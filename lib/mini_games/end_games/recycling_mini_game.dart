@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import '../../dialog.dart';
+import '../../helpers/dialog.dart';
 import '../../enums/trash_type.dart';
 import '../../interactive_objects/trash.dart';
 

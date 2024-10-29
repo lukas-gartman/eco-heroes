@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'src/models/cut_scene.dart';
-import 'src/models/dialog.dart';
-import 'src/models/mini_game.dart';
+import '../widgets/cut_scene.dart';
+import '../helpers/dialog.dart';
+import '../mini_games/mini_game.dart';
 
-import 'src/models/mini_games/apartment_mini_game.dart';
-import 'src/models/mini_games/chopped_forest_mini_game.dart';
-import 'src/models/mini_games/nice_looking_forest_mini_game.dart';
-import 'src/models/mini_games/trash_picking_mini_game.dart';
+import '../mini_games/apartment_mini_game.dart';
+import '../mini_games/chopped_forest_mini_game.dart';
+import '../mini_games/nice_looking_forest_mini_game.dart';
+import '../mini_games/trash_picking_mini_game.dart';
 
 class GameManager {
   final void Function([bool, CutScene?]) onMiniGameSwitch;

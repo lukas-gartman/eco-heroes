@@ -118,7 +118,9 @@ class ChoppedForestMiniGame extends MiniGame {
     if (plantedSeeds >= numberOfHoles) {
       isCompleted = true;
       FlameAudio.play('effects/minigame_success.wav');
-      super.onCompleted();
+      Future.delayed(const Duration(seconds: 2), () {
+        super.onCompleted();
+      });
     }
   }
 

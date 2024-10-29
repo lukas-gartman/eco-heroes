@@ -8,7 +8,7 @@ class EcoHeroPlayer extends SimplePlayer {
       : super(
           position: position, 
           size: Vector2.all(32),
-          speed: 150,
+          speed: 100,
           animation: PlayerSpriteSheet.simpleDirectionAnimation,
       );
 

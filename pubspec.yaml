@@ -90,3 +90,4 @@ flutter:
     - assets/audio/wrong.mp3
     - assets/audio/loop_music.wav
     - assets/audio/switch.wav
+    - assets/audio/effects/squirrel.wav

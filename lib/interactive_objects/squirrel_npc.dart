@@ -1,6 +1,7 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:eco_heroes/enums/interaction_type.dart';
 import 'package:eco_heroes/interactive_objects/interactive_object.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class SquirrelNPC extends InteractiveObject with Movement, RandomMovement {
   @override
@@ -17,7 +18,7 @@ class SquirrelNPC extends InteractiveObject with Movement, RandomMovement {
 
   @override
   void interact() {
-    // Interaction logic for talking to the squirrel
+    FlameAudio.play('effects/squirrel.wav');
     print("Interacting with the squirrel");
   }
 }

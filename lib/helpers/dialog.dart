@@ -135,6 +135,12 @@ class GameDialog {
       _speak(text: "By saving energy and water, you're helping Goal 11 again—keeping cities sustainable and resources protected for everyone.", isHero: false, imagepath: narrator),
     ];
   }
+
+  static List<Say> apartmentSquirrelDialog(int lampsLeft) {
+    return [
+      _speak(text: "Thanks for doing this for us Eco Hero. You have $lampsLeft lamps to turn off until you've saved the house!", isHero: false, imagepath: narrator),
+    ];
+  }
   
   //Minigame 4 - Quiz
 

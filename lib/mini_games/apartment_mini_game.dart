@@ -1,5 +1,6 @@
 import 'package:eco_heroes/interactive_objects/lamps/floor_lamp.dart';
 import 'package:eco_heroes/interactive_objects/lamps/table_lamp.dart';
+import 'package:eco_heroes/interactive_objects/squirrel_npc.dart';
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -18,6 +19,8 @@ class ApartmentMiniGame extends MiniGame {
   final double proximityRange = 40;
   bool isStart = true;
   bool isGameCompleted = false;
+  final List<InteractiveObject> _interactableObjects = [];
+  final SquirrelNPC _squirrelNPC = SquirrelNPC(position: Vector2(285, 600));
 
   ApartmentMiniGame({required super.onCompleted, super.cutScenes});
 
@@ -51,7 +54,7 @@ class ApartmentMiniGame extends MiniGame {
   @override
   Color get lighting => Colors.black.withOpacity(0.5);
   @override
-  List<GameObject> get objects => _lamps;
+  List<GameObject> get objects => _interactableObjects;
   @override
   Vector2 get playerStartPosition => Vector2(635, 628);
   @override
@@ -95,8 +98,11 @@ class ApartmentMiniGame extends MiniGame {
 
   @override
   void start() {
+    _interactableObjects.addAll(_lamps);
+    _interactableObjects.add(_squirrelNPC);
+
     super.proximityChecker = ProximityChecker(
-      objects: _lamps,
+      objects: _interactableObjects,
       proximityRange: proximityRange,
       inProximityWith: ValueNotifier(null),
     );
@@ -134,6 +140,12 @@ class ApartmentMiniGame extends MiniGame {
     if (object is InteractiveObject) {
       FlameAudio.play('switch.wav');
       object.interact();
+    }
+
+    if (object is SquirrelNPC) {
+      object.interact();
+      int lampsLeft = _lamps.where((lamp) => lamp.lampOn).length;
+      TalkDialog.show(context, GameDialog.apartmentSquirrelDialog(lampsLeft));
     }
   }
 }

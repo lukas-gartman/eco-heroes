@@ -18,7 +18,7 @@ class EcoHeroes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Eco Heroes",
+      title: "Eco Hero Adventures",
       theme: ThemeData(primarySwatch: Colors.green),
       routes: AppRoutes.routes,
     );

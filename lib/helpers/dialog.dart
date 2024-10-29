@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class GameDialog {
 
   //Narrator = Squirrel
-  static String narrator = 'images/squirrel.png';
+  static String narrator = 'assets/images/squirrel.png';
   //EcoHero
   static String ecohero = 'assets/images/player/eco_hero_dialogue.png';
   //EcoFiend
-  static String ecofiend = 'images/trash.png';
+  static String ecofiend = 'assets/images/player/eco_fiend_dialogue.png';
 
   //Introduction
 
@@ -69,8 +69,8 @@ class GameDialog {
 
   static List<Say> trashPickingEndDialog() {
     return [
-      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: ecohero),
-      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: ecohero),
+      _speak(text: "No! How could you have cleaned up all my trash?", isHero: false, imagepath: ecofiend),
+      _speak(text: "This isn't over, Eco Hero! I'll be back!", isHero: false, imagepath: ecofiend),
       _speak(text: "Thank you for saving the park Eco Hero! Now head over to the recycle bins to sort the trash.", isHero: false, imagepath: narrator),
     ];
   }

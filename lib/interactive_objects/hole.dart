@@ -4,14 +4,14 @@ import 'package:eco_heroes/interactive_objects/interactive_object.dart';
 
 class Hole extends InteractiveObject {
   @override
-  InteractionType get interactionType => InteractionType.clean;
+  InteractionType get interactionType => InteractionType.plant;
 
   Hole({required super.position})
-      : super(size: Vector2(32, 32), sprite: Sprite.load('trash.png'));
+      : super(size: Vector2(32, 32), sprite: Sprite.load('hole.png'));
 
   Future<void> changeSprite() async {
     // Load the new sprite
-    sprite = await Sprite.load('planted_tree.png');
+    sprite = await Sprite.load('sprout.png');
   }
 
   @override

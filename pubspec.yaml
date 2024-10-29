@@ -38,10 +38,12 @@ flutter:
     - assets/images/player/eco_hero_run_up.png
     - assets/images/player/eco_hero_run_left.png
     - assets/images/player/eco_hero_run_right.png
+    - assets/images/player/eco_hero_dialogue.png
 
     - assets/images/trash.png
     - assets/images/squirrel.png
-    - assets/images/player/player_idle_right.png
+    - assets/images/hole.png
+    - assets/images/sprout.png
     - assets/images/recycling_minigame_background.jpg
   
     - assets/images/cut_scenes/dirty-city.jpg

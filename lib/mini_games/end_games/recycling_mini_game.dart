@@ -36,7 +36,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
         id: i+1,
         trash: trashObjects[i],
         imagePath: "assets/images/${trashObjects[i].spriteSrc}",
-        initialPosition: Offset((i * 0.04), (i % 2 == 0 ? 0.75 : 0.85)),
+        initialPosition: Offset((i * 0.04), (i % 2 == 0 ? 0.70 : 0.80)),
       ));
     }
 
@@ -70,9 +70,9 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    paperBin = Rect.fromLTWH(screenWidth * 0.13, screenHeight * 0.02, screenWidth * 0.2, screenHeight * 0.2);
-    plasticBin = Rect.fromLTWH(screenWidth * 0.4, screenHeight * 0.02, screenWidth * 0.2, screenHeight * 0.2);
-    compostBin = Rect.fromLTWH(screenWidth * 0.66, screenHeight * 0.02, screenWidth * 0.2, screenHeight * 0.2);
+    paperBin = Rect.fromLTWH(screenWidth * 0.17, screenHeight * 0.06, screenWidth * 0.2, screenHeight * 0.2);
+    plasticBin = Rect.fromLTWH(screenWidth * 0.4, screenHeight * 0.06, screenWidth * 0.2, screenHeight * 0.2);
+    compostBin = Rect.fromLTWH(screenWidth * 0.63, screenHeight * 0.06, screenWidth * 0.2, screenHeight * 0.2);
   }
 
   bool _isInTargetZone(Offset position, Rect target) {
@@ -161,7 +161,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/recycling_minigame_background.jpg',
+              'assets/images/recycling_minigame_background.png',
               fit: BoxFit.cover,
             ),
           ),

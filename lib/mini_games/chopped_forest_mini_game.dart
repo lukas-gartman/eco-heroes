@@ -118,7 +118,7 @@ class ChoppedForestMiniGame extends MiniGame {
     if (plantedSeeds >= numberOfHoles) {
       isCompleted = true;
       FlameAudio.play('minigame_success.wav');
-      TalkDialog.show(context, GameDialog.plantingEndDialog(), onFinish: () => super.onCompleted());
+      super.onCompleted();
     }
   }
 

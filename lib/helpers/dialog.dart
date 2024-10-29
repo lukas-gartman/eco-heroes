@@ -12,30 +12,29 @@ class GameDialog {
 
   //Introduction
 
-  static List<Say> introMeetTheHero() {
+  static List<Say> introMeetTheHeroPart1() {
     return [
-      _speak(text: "Welcome, Eco Hero! You’re about to go on an exciting adventure to save this city from pollution and destruction. But before you start, let’s talk about something really important—the United Nations’ Sustainable Development Goals, or SDGs for short!", isHero: false, imagepath: narrator),
-      _speak(text: "These are 17 goals set by countries all over the world to make our planet a better place. You’ll be focusing on two of them during your mission:", isHero: false, imagepath: narrator),
+      _speak(text: "Welcome, Eco Hero! You're about to go on an exciting adventure to save this city from pollution and destruction. But before you start, let's talk about something really important—the United Nations' Sustainable Development Goals, or SDGs for short!", isHero: false, imagepath: narrator),
+      _speak(text: "These are 17 goals set by countries all over the world to make our planet a better place. You'll be focusing on two of them during your mission:", isHero: false, imagepath: narrator),
       _speak(text: "Goal 11 is all about making our cities better places to live. It means cleaner streets, parks, and less waste. And Goal 13 is about taking care of our climate by protecting nature and using energy wisely.", isHero: true, imagepath: ecohero),
-      _speak(text: "Together, we can make sure cities like this one become colorful, clean, and safe for everyone. Are you ready to help make that happen? Let’s go!", isHero: true, imagepath: ecohero),
-      //Change the one under this imagepath to something blank
-      _speak(text: "*The Eco Hero ventures into the city...*", isHero: false, imagepath: narrator),
-      _speak(text: "Welcome, Eco Hero! You’ve arrived just in time. Our city is in trouble, and only you can save it from the clutches of the Eco Fiend!", isHero: false, imagepath: narrator),
-      _speak(text: "Hahaha! Look at this mess! I thrive in pollution and chaos. Watch as I ruin your precious city, starting with the park!", isHero: false, imagepath: ecofiend),
-    
+      _speak(text: "Together, we can make sure cities like this one become colorful, clean, and safe for everyone. Are you ready to help make that happen? Let's go!", isHero: true, imagepath: ecohero),
     ];
   }
 
- 
-
+  static List<Say> introMeetTheHeroPart2() {
+    return [
+      _speak(text: "Welcome, Eco Hero! You've arrived just in time. Our city is in trouble, and only you can save it from the clutches of the Eco Fiend!", isHero: false, imagepath: narrator),
+      _speak(text: "Hahaha! Look at this mess! I thrive in pollution and chaos. Watch as I ruin your precious city, starting with the park!", isHero: false, imagepath: ecofiend),
+    ];
+  }
 
   //Minigame 1 - Trash Picking
   //Citizen = Squirrel
 
   static List<Say> trashPickingIntroDialog() {
     return [
-      _speak(text: "Eco Hero, please help us! The park is being covered in trash, and it’s becoming unusable! Can you clean it up?", isHero: false, imagepath: narrator),
-      _speak(text: "Of course! Keeping our parks clean is important for a healthy environment. I’ll pick up the trash and sort it to recycle as much as possible.", isHero: true, imagepath: ecohero),
+      _speak(text: "Eco Hero, please help us! The park is being covered in trash, and it's becoming unusable! Can you clean it up?", isHero: false, imagepath: narrator),
+      _speak(text: "Of course! Keeping our parks clean is important for a healthy environment. I'll pick up the trash and sort it to recycle as much as possible.", isHero: true, imagepath: ecohero),
       _speak(text: "Thanks Eco Hero, once you've picked up all the trash recycle them over to the left.", isHero: false, imagepath: narrator),
     ];
   }
@@ -81,7 +80,7 @@ class GameDialog {
   }
   static List<Say> recyclingEndingDialog() {
     return [
-      _speak(text: "Great job, Eco Hero! By cleaning up and sorting the trash, you’re helping Goal 11: Sustainable Cities and Communities. A clean park means a better place for everyone!", isHero: false, imagepath: narrator)      
+      _speak(text: "Great job, Eco Hero! By cleaning up and sorting the trash, you're helping Goal 11: Sustainable Cities and Communities. A clean park means a better place for everyone!", isHero: false, imagepath: narrator)      
     ];
   }
 
@@ -141,8 +140,8 @@ class GameDialog {
 
   static List<Say> quizIntroDialog() {
     return [
-      _speak(text: "Grr... you may have won, but can you teach others what you’ve learned? We’ll see!", isHero: false, imagepath: ecofiend),
-      _speak(text: "You’ve done it, Eco Hero! You’ve saved the city from the Eco Fiend’s chaos, and now it’s time to share what you’ve learned. Are you ready for the final quiz? Let’s see how much you know about Goals 11 and 13!", isHero: false, imagepath: narrator)
+      _speak(text: "Grr... you may have won, but can you teach others what you've learned? We'll see!", isHero: false, imagepath: ecofiend),
+      _speak(text: "You've done it, Eco Hero! You've saved the city from the Eco Fiend's chaos, and now it's time to share what you've learned. Are you ready for the final quiz? Let's see how much you know about Goals 11 and 13!", isHero: false, imagepath: narrator)
     ];
   }
 

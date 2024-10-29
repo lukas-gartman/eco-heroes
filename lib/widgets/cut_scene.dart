@@ -25,11 +25,8 @@ class CutSceneState extends State<CutScene> {
     opacity = widget.opacity;
     dialog = widget.dialog;
     cityHasBeenSaved = widget.cityHasBeenSaved;
-    FlameAudio.bgm.play(
-     cityHasBeenSaved 
-      ? "birds.wav"
-      : "rain.wav",
-    );
+
+    FlameAudio.bgm.play(cityHasBeenSaved ? "birds.wav" : "rain.wav");
 
     Future.delayed(Duration.zero, () { // Wait for the widget to be built by skipping a frame.
       TalkDialog.show(
@@ -38,9 +35,9 @@ class CutSceneState extends State<CutScene> {
         backgroundColor: Colors.black.withOpacity(0),
         onFinish: () {
           setState(() => opacity = 100); // Make the screen black
-          FlameAudio.bgm.stop(); 
-          FlameAudio.bgm.play('loop_music.wav');
+          FlameAudio.bgm.stop();
           Future.delayed(const Duration(seconds: 2), () { // Wait for 2 seconds for a more pleasant transition
+          FlameAudio.bgm.play('loop_music.wav');
             Navigator.of(context).pop();
           });
         }

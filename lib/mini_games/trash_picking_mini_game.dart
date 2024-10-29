@@ -37,7 +37,7 @@ class TrashPickingMiniGame extends MiniGame {
   bool isRecyclingCompleted = false;
   bool isTrashPickingCompleted = false;
 
-  TrashPickingMiniGame({required super.onCompleted, super.cutScene});
+  TrashPickingMiniGame({required super.onCompleted, super.cutScenes});
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/trash_picking/ParkArea.tmj'), forceTileSize: Vector2.all(tileSize));
@@ -158,7 +158,7 @@ class TrashPickingMiniGame extends MiniGame {
       object.interact();
       // trashObjects.remove(object);
       collectedTrash++;
-      FlameAudio.play('success.wav');
+      FlameAudio.play('success.wav', volume: 0.15);
       proximityChecker.removeObject(object);
       print('Removed trash can at position: ${object.position}');
     }

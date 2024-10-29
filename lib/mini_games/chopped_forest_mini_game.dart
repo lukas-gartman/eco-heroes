@@ -26,7 +26,7 @@ class ChoppedForestMiniGame extends MiniGame {
   bool isStart = true;
   bool isCompleted = false;
 
-  ChoppedForestMiniGame({required super.onCompleted, super.cutScene});
+  ChoppedForestMiniGame({required super.onCompleted, super.cutScenes});
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/chopped_down_forrest/choppedDownForrest.tmj'), forceTileSize: Vector2.all(tileSize));
@@ -166,7 +166,7 @@ class ChoppedForestMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object) {
     if (object is Hole) {
-      FlameAudio.play('success.wav');
+      FlameAudio.play('success.wav', volume: 0.15);
       object.interact();
       proximityChecker.removeObject(object);
       plantedSeeds++;

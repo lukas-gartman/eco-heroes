@@ -19,10 +19,16 @@ class GameManager {
 
   void init() {
     _miniGames = [
-      TrashPickingMiniGame(cutScene: CutScene(opacity: 50, dialog: GameDialog.introMeetTheHero()), onCompleted: onMiniGameCompleted),
-      ChoppedForestMiniGame(cutScene: CutScene(opacity: 50, dialog: GameDialog.introForestAttack()), onCompleted: onMiniGameCompleted),
+      TrashPickingMiniGame(
+        cutScenes: [
+          CutScene(opacity: 0, dialog: GameDialog.introMeetTheHeroPart1(), cityHasBeenSaved: true),
+          CutScene(opacity: 50, dialog: GameDialog.introMeetTheHeroPart2()),
+        ],
+        onCompleted: onMiniGameCompleted
+      ),
+      ChoppedForestMiniGame(cutScenes: [CutScene(opacity: 25, dialog: GameDialog.introForestAttack())], onCompleted: onMiniGameCompleted),
       NiceLookingForestMiniGame(onCompleted: onMiniGameCompleted),
-      ApartmentMiniGame(cutScene: CutScene(opacity: 25, dialog: GameDialog.introHouseSabotageDialog()), onCompleted: onMiniGameCompleted),
+      ApartmentMiniGame(cutScenes: [CutScene(opacity: 0, dialog: GameDialog.introHouseSabotageDialog())], onCompleted: onMiniGameCompleted),
     ];
 
     _currentMiniGame = _miniGames.removeAt(0);

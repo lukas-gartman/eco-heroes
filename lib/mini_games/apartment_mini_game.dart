@@ -19,7 +19,7 @@ class ApartmentMiniGame extends MiniGame {
   bool isStart = true;
   bool isGameCompleted = false;
 
-  ApartmentMiniGame({required super.onCompleted, super.cutScene});
+  ApartmentMiniGame({required super.onCompleted, super.cutScenes});
 
   final List<Lamp> _lamps = [
     TableLamp(position: Vector2(425, 560)),

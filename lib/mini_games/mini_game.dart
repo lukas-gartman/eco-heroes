@@ -6,7 +6,7 @@ import '../services/proximity_checker.dart';
 
 abstract class MiniGame {
   final void Function() onCompleted;
-  final CutScene? cutScene;
+  final List<CutScene>? cutScenes;
   late final ProximityChecker proximityChecker;
 
   List<GameObject> get objects;
@@ -16,16 +16,22 @@ abstract class MiniGame {
   Vector2 get playerStartPosition => Vector2(40, 40);
   List<Rect> get collisionAreas => [];
 
-  MiniGame({required this.onCompleted, this.cutScene});
+  MiniGame({required this.onCompleted, this.cutScenes});
 
   void start();
   void update(BuildContext context, Vector2 playerPosition) {
-    if (cutScene != null) {
+    if (cutScenes != null && cutScenes!.isNotEmpty) {
       Future.microtask(() {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => cutScene!),
-        );
+        void showNextCutScene(int index) {
+          if (index < cutScenes!.length) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => cutScenes![index]),
+            ).whenComplete(() => showNextCutScene(index + 1));
+          }
+        }
+
+        showNextCutScene(0);
       });
     }
   }

@@ -13,7 +13,7 @@ class NiceLookingForestMiniGame extends MiniGame {
   bool isStart = true;
   bool isCompleted = false;
 
-  NiceLookingForestMiniGame({required super.onCompleted, super.cutScene});
+  NiceLookingForestMiniGame({required super.onCompleted, super.cutScenes});
 
   @override
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/chopped_down_forrest/niceLookingForrest.tmj'), forceTileSize: Vector2.all(tileSize));

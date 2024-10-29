@@ -117,7 +117,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
 
             if (_isInTargetZone(offset, targetBin)) {
               onSorted(true); // Mark as sorted if in the correct bin
-              FlameAudio.play('success.wav');
+              FlameAudio.play('success.wav', volume: 0.15);
               _showFeedback("Correct bin, good job!", Colors.white); // Change this to make a sound instead
             } else if (_isInTargetZone(offset, paperBin) ||
                 _isInTargetZone(offset, plasticBin) ||

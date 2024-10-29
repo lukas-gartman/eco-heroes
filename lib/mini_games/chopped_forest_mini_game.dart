@@ -15,7 +15,7 @@ class ChoppedForestMiniGame extends MiniGame {
   static const double tileSize = 16;
   static const double mapWidth = 640;
   static const double mapHeight = 640;
-  static const int numberOfHoles = 8;
+  static const int numberOfHoles = 18;
 
   late List<Hole> holes;
   late List<SquirrelNPC> squirrels;
@@ -131,7 +131,7 @@ class ChoppedForestMiniGame extends MiniGame {
         const Rect.fromLTRB(0, 255, 640, 341),
       ];
 
-      bool isFarFromObjects = holeList.every((obj) => position.distanceTo(obj.position) >= proximityRange * 2);
+      bool isFarFromObjects = holeList.every((obj) => position.distanceTo(obj.position) >= proximityRange);
       bool isOutsideCollisionAreas = collisionAreas.every((rect) => !rect.inflate(proximityRange).contains(position.toOffset()));
       bool isOutsideDirtPathAreas = dirtPathAreas.every((rect) => !rect.contains(position.toOffset()));
       

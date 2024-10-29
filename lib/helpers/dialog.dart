@@ -26,13 +26,7 @@ class GameDialog {
     ];
   }
 
-  //To be removed
-  static List<Say> introDialog() {
-    return [
-      _speak(text: "Hello! I've been expecting you.", isHero: true, imagepath: ecohero),
-      _speak(text: "Hahaha! You cannot defeat me, Villain!", isHero: false, imagepath: ecohero),
-    ];
-  }
+ 
 
 
   //Minigame 1 - Trash Picking

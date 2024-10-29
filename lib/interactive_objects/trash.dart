@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 
-import '../interactive_object.dart';
+import 'interactive_object.dart';
 import '../enums/trash_type.dart';
 import '../enums/interaction_type.dart';
 

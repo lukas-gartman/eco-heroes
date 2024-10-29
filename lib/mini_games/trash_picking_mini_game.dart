@@ -12,12 +12,12 @@ import '../interactive_objects/trash_objects/egg_trash.dart';
 import '../interactive_objects/trash_objects/magazine_trash.dart';
 import '../interactive_objects/trash_objects/milk_trash.dart';
 import '../interactive_objects/trash_objects/plastic_bag_trash.dart';
-import '../dialog.dart';
+import '../helpers/dialog.dart';
 import '../interactive_objects/trash.dart';
-import '../interactive_object.dart';
+import '../interactive_objects/interactive_object.dart';
 import '../interactive_objects/squirrel_npc.dart';
-import '../mini_game.dart';
-import '../proximity_checker.dart';
+import 'mini_game.dart';
+import '../services/proximity_checker.dart';
 import 'end_games/recycling_mini_game.dart';
 
 class TrashPickingMiniGame extends MiniGame {

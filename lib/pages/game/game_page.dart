@@ -1,21 +1,21 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/interactive_object.dart';
-import 'package:eco_heroes/src/models/mini_game.dart';
+import 'package:eco_heroes/interactive_objects/interactive_object.dart';
+import 'package:eco_heroes/mini_games/mini_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'game_manager.dart';
-import 'src/models/cut_scene.dart';
-import 'src/models/players/eco_hero_player.dart';
-import 'interact_button.dart';
+import '../../services/game_manager.dart';
+import '../../widgets/cut_scene.dart';
+import '../../players/eco_hero_player.dart';
+import '../../widgets/interact_button.dart';
 
-class Game extends StatefulWidget {
-  const Game({super.key});
+class GamePage extends StatefulWidget {
+  const GamePage({super.key});
 
   @override
-  GameState createState() => GameState();
+  GamePageState createState() => GamePageState();
 }
 
-class GameState extends State<Game> with TickerProviderStateMixin {
+class GamePageState extends State<GamePage> with TickerProviderStateMixin {
   late GameManager gameManager;
   late MiniGame miniGame;
   late EcoHeroPlayer player;
@@ -91,13 +91,10 @@ class GameState extends State<Game> with TickerProviderStateMixin {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => cutScene),
-        );
+        ).whenComplete(() {
+          Navigator.pushReplacementNamed(context, '/');
+        });
       });
-    }
-
-    if (noMoreGames) {
-      print('No more games to play.');
-      return;
     }
 
     setState(() {
@@ -110,7 +107,6 @@ class GameState extends State<Game> with TickerProviderStateMixin {
 
   // Handle interact button press
   void _onInteract() {
-    
     if (miniGame.proximityChecker.inProximityWith.value != null) {
       InteractiveObject objectToInteractWith = miniGame.proximityChecker.inProximityWith.value!;
       miniGame.interactWithObject(context, objectToInteractWith);

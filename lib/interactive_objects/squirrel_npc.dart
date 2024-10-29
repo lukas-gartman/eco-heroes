@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
-import 'package:eco_heroes/src/models/enums/interaction_type.dart';
-import 'package:eco_heroes/src/models/interactive_object.dart';
+import 'package:eco_heroes/enums/interaction_type.dart';
+import 'package:eco_heroes/interactive_objects/interactive_object.dart';
 
 class SquirrelNPC extends InteractiveObject with Movement, RandomMovement {
   @override

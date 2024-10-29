@@ -1,4 +1,4 @@
-import 'package:eco_heroes/src/models/enums/interaction_type.dart';
+import 'package:eco_heroes/enums/interaction_type.dart';
 import 'package:flutter/material.dart';
 
 class InteractButton extends StatelessWidget {

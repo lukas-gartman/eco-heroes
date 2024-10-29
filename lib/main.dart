@@ -1,6 +1,6 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:eco_heroes/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'game.dart';
 
 void main() {
   // TODO: Load sprite sheets here
@@ -20,7 +20,7 @@ class EcoHeroes extends StatelessWidget {
     return MaterialApp(
       title: "Eco Heroes",
       theme: ThemeData(primarySwatch: Colors.green),
-      home: Game(),
+      routes: AppRoutes.routes,
     );
   }
 }

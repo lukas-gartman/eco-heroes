@@ -2,6 +2,7 @@ import 'package:bonfire/util/talk/say.dart';
 import 'package:bonfire/util/talk/talk_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_audio/flame_audio.dart';
+
 class CutScene extends StatefulWidget {
   final int opacity;
   final List<Say> dialog;

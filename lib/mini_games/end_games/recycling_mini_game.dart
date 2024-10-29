@@ -36,7 +36,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
         id: i+1,
         trash: trashObjects[i],
         imagePath: "assets/images/${trashObjects[i].spriteSrc}",
-        initialPosition: Offset((i * 0.04), (i % 2 == 0 ? 0.70 : 0.80)),
+        initialPosition: Offset((i * 0.04), (i % 2 == 0 ? 0.65 : 0.80)),
       ));
     }
 
@@ -75,8 +75,12 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
     compostBin = Rect.fromLTWH(screenWidth * 0.63, screenHeight * 0.06, screenWidth * 0.2, screenHeight * 0.2);
   }
 
-  bool _isInTargetZone(Offset position, Rect target) {
-    return target.contains(position);
+  bool _isInTargetZone(Offset position, Vector2 targetSize, Rect target) {
+    final centerOfTargetPos = Offset(
+      position.dx + targetSize.x / 2,
+      position.dy + targetSize.y / 2,
+    );
+    return target.contains(centerOfTargetPos);
   }
 
   void _showFeedback(String message, Color color) {
@@ -115,13 +119,13 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
           setState(() {
             showDropZone = false;
 
-            if (_isInTargetZone(offset, targetBin)) {
+            if (_isInTargetZone(offset, trashOffset.trash.size, targetBin)) {
               onSorted(true); // Mark as sorted if in the correct bin
               FlameAudio.play('success.wav', volume: 0.15);
               _showFeedback("Correct bin, good job!", Colors.white); // Change this to make a sound instead
-            } else if (_isInTargetZone(offset, paperBin) ||
-                _isInTargetZone(offset, plasticBin) ||
-                _isInTargetZone(offset, compostBin)) {
+            } else if (_isInTargetZone(offset, trashOffset.trash.size, paperBin) ||
+                _isInTargetZone(offset, trashOffset.trash.size, plasticBin) ||
+                _isInTargetZone(offset, trashOffset.trash.size, compostBin)) {
               FlameAudio.play('wrong.mp3');
               _showFeedback("Wrong bin, try again!", Colors.red);
               onResetPosition(trashOffset.initialPosition); // Reset to original position

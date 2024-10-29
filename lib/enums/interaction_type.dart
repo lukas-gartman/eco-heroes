@@ -39,7 +39,7 @@ enum InteractionType {
       case InteractionType.onOff:
         return const Icon(Icons.lightbulb);
       case InteractionType.plant:
-        return const Icon(Icons.add);
+        return const Icon(Icons.eco);
     }
   }
 }

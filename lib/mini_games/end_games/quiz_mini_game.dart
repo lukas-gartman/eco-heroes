@@ -62,11 +62,11 @@ class QuizMiniGameState extends State<QuizMiniGame> {
       feedbackMessage = isCorrect ? '' : 'Wrong answer, try again';
       feedbackColor = isCorrect ? Colors.transparent : Colors.red;
       if (isCorrect) {
-         FlameAudio.play('success.wav', volume: 0.15);
+        FlameAudio.play('effects/success.wav', volume: 0.15);
         _nextQuestion();
       }
       else{
-        FlameAudio.play('wrong.mp3');
+        FlameAudio.play('effects/wrong.mp3');
       }
     });
     Future.delayed(const Duration(seconds: 3), () {

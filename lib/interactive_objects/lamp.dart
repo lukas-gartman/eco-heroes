@@ -1,4 +1,5 @@
 import 'package:bonfire/bonfire.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import 'interactive_object.dart';
@@ -25,6 +26,8 @@ abstract class Lamp extends InteractiveObject {
 
   @override
   void interact() {
+    FlameAudio.play('effects/switch.wav');
+    
     _lampOn = !_lampOn;
     setupLighting(
       LightingConfig(

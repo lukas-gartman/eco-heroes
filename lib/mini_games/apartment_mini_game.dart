@@ -122,7 +122,7 @@ class ApartmentMiniGame extends MiniGame {
 
     if (_lamps.every((lamp) => !lamp.lampOn) && !isGameCompleted) {
       isGameCompleted = true;
-      FlameAudio.play('minigame_success.wav');
+      FlameAudio.play('effects/minigame_success.wav');
 
       TalkDialog.show(context, GameDialog.apartmentEndDialog(), onFinish: () {
         Future.microtask(() {
@@ -138,7 +138,6 @@ class ApartmentMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object) {
     if (object is InteractiveObject) {
-      FlameAudio.play('switch.wav');
       object.interact();
     }
 

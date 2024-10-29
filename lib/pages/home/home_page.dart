@@ -16,7 +16,7 @@ class HomePageState extends State<HomePage> {
     super.initState();
 
     FlameAudio.bgm.stop();
-    FlameAudio.bgm.play('loop_music.wav');
+    FlameAudio.bgm.play('background/loop_music.wav');
   }
 
   @override

@@ -81,13 +81,14 @@ flutter:
     - assets/images/lamps/floor-lamp.png
     - assets/images/lamps/table-lamp.png
 
-    - assets/audio/birds.wav
-    - assets/audio/city.wav
-    - assets/audio/minigame_success.wav
-    - assets/audio/rain.wav
-    - assets/audio/success.wav
-    - assets/audio/walking.wav
-    - assets/audio/wrong.mp3
-    - assets/audio/loop_music.wav
-    - assets/audio/switch.wav
+    - assets/audio/background/birds.wav
+    - assets/audio/background/city.wav
+    - assets/audio/background/rain.wav
+    - assets/audio/background/loop_music.wav
+    - assets/audio/effects/minigame_success.wav
+    - assets/audio/effects/success.wav
+    - assets/audio/effects/walking.wav
+    - assets/audio/effects/wrong.mp3
+    - assets/audio/effects/switch.wav
     - assets/audio/effects/squirrel.wav
+    - assets/audio/effects/tree-planted.mp3

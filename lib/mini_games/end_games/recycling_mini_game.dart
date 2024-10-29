@@ -57,7 +57,7 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
   }
 
   void _completeRecyclingGame() {
-    FlameAudio.play('minigame_success.wav');
+    FlameAudio.play('effects/minigame_success.wav');
     TalkDialog.show(context, GameDialog.recyclingEndingDialog(), onFinish: () {
       widget.onRecyclingCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
@@ -121,12 +121,12 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
 
             if (_isInTargetZone(offset, trashOffset.trash.size, targetBin)) {
               onSorted(true); // Mark as sorted if in the correct bin
-              FlameAudio.play('success.wav', volume: 0.15);
+              FlameAudio.play('effects/success.wav', volume: 0.15);
               _showFeedback("Correct bin, good job!", Colors.white); // Change this to make a sound instead
             } else if (_isInTargetZone(offset, trashOffset.trash.size, paperBin) ||
                 _isInTargetZone(offset, trashOffset.trash.size, plasticBin) ||
                 _isInTargetZone(offset, trashOffset.trash.size, compostBin)) {
-              FlameAudio.play('wrong.mp3');
+              FlameAudio.play('effects/wrong.mp3');
               _showFeedback("Wrong bin, try again!", Colors.red);
               onResetPosition(trashOffset.initialPosition); // Reset to original position
             } else {

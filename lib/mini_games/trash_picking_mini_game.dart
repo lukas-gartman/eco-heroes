@@ -88,7 +88,7 @@ class TrashPickingMiniGame extends MiniGame {
     super.proximityChecker.checkProximity(playerPosition); // Call the proximity checker in each update with the player's position
     if (collectedTrash >= trashObjects.length && !isTrashPickingCompleted) {
       isTrashPickingCompleted = true;
-      FlameAudio.play('minigame_success.wav');
+      FlameAudio.play('effects/minigame_success.wav');
       TalkDialog.show(context, GameDialog.trashPickingEndDialog());
     }
   }
@@ -158,7 +158,7 @@ class TrashPickingMiniGame extends MiniGame {
       object.interact();
       // trashObjects.remove(object);
       collectedTrash++;
-      FlameAudio.play('success.wav', volume: 0.15);
+      FlameAudio.play('effects/success.wav', volume: 0.15);
       proximityChecker.removeObject(object);
       print('Removed trash can at position: ${object.position}');
     }

@@ -117,7 +117,7 @@ class ChoppedForestMiniGame extends MiniGame {
 
     if (plantedSeeds >= numberOfHoles) {
       isCompleted = true;
-      FlameAudio.play('minigame_success.wav');
+      FlameAudio.play('effects/minigame_success.wav');
       super.onCompleted();
     }
   }
@@ -166,7 +166,7 @@ class ChoppedForestMiniGame extends MiniGame {
   @override
   void interactWithObject(BuildContext context, GameObject object) {
     if (object is Hole) {
-      FlameAudio.play('success.wav', volume: 0.15);
+      FlameAudio.play('effects/tree-planted.mp3');
       object.interact();
       proximityChecker.removeObject(object);
       plantedSeeds++;

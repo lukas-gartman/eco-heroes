@@ -20,6 +20,12 @@ class HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    FlameAudio.bgm.stop();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(

@@ -28,8 +28,6 @@ flutter:
 
   assets:
     - assets/images/home_background.png
-    - assets/images/buttons/start_game.png
-    - assets/images/buttons/start_game_pressed.png
 
     - assets/images/eco-heroes.tmj
     - assets/images/spr_tileset_sunnysideworld_16px.png

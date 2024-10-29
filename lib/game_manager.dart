@@ -25,8 +25,8 @@ class GameManager {
   void init() {
     _gameSegments = [
       GameSegment(cutScene: CutScene(opacity: 50, dialog: GameDialog.introMeetTheHero()), miniGame: TrashPickingMiniGame(onMiniGameCompleted)),
-      GameSegment(cutScene: CutScene(opacity: 25, dialog: GameDialog.introDialog()), miniGame: ChoppedForrestMiniGame(onMiniGameCompleted)),
-      GameSegment(cutScene: CutScene(opacity: 0,  dialog: GameDialog.introDialog()), miniGame: ApartmentMiniGame(onMiniGameCompleted)),
+      GameSegment(cutScene: CutScene(opacity: 25, dialog: GameDialog.introForestAttack()), miniGame: ChoppedForrestMiniGame(onMiniGameCompleted)),
+      GameSegment(cutScene: CutScene(opacity: 0,  dialog: GameDialog.introHouseSabotageDialog()), miniGame: ApartmentMiniGame(onMiniGameCompleted)),
     ];
 
     _currentGameSegment = _gameSegments.removeAt(0);

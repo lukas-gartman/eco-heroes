@@ -40,6 +40,8 @@ flutter:
     - assets/images/player/eco_hero_run_right.png
     - assets/images/player/eco_hero_dialogue.png
 
+    - assets/images/player/eco_fiend_dialogue.png
+
     - assets/images/trash.png
     - assets/images/squirrel.png
     - assets/images/hole.png

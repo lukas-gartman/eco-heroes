@@ -11,6 +11,7 @@ abstract class MiniGame {
 
   List<GameObject> get objects;
   GameMap get map;
+  double get mapZoom => 2.0;
   Color get lighting => Colors.transparent;
   Vector2 get playerStartPosition => Vector2(40, 40);
   List<Rect> get collisionAreas => [];

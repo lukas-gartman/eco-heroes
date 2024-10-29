@@ -19,6 +19,9 @@ class NiceLookingForestMiniGame extends MiniGame {
   GameMap get map => WorldMapByTiled(WorldMapReader.fromAsset('maps/chopped_down_forrest/niceLookingForrest.tmj'), forceTileSize: Vector2.all(tileSize));
 
   @override
+  double get mapZoom => 1.5;
+
+  @override
   List<GameObject> get objects => [];
 
   @override

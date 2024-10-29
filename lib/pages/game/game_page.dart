@@ -59,7 +59,7 @@ class GamePageState extends State<GamePage> with TickerProviderStateMixin {
                 Joystick(directional: JoystickDirectional()),
                 Keyboard(config: KeyboardConfig(directionalKeys: [KeyboardDirectionalKeys.wasd()])),
               ],
-              cameraConfig: CameraConfig(zoom: 2),
+              cameraConfig: CameraConfig(zoom: miniGame.mapZoom),
               map: miniGame.map,
               player: player,
               components: miniGame.objects,

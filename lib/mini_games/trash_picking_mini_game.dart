@@ -81,7 +81,9 @@ class TrashPickingMiniGame extends MiniGame {
       super.update(context, playerPosition);
 
       isStart = false;
-      TalkDialog.show(context, GameDialog.trashPickingIntroDialog());
+      List<Say> dialog = GameDialog.trashPickingIntroDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!), onFinish: () => GameDialog.stopSpeak());
       return;
     }
     
@@ -89,7 +91,9 @@ class TrashPickingMiniGame extends MiniGame {
     if (collectedTrash >= trashObjects.length && !isTrashPickingCompleted) {
       isTrashPickingCompleted = true;
       FlameAudio.play('effects/minigame_success.wav');
-      TalkDialog.show(context, GameDialog.trashPickingEndDialog());
+      List<Say> dialog = GameDialog.trashPickingEndDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!), onFinish: () => GameDialog.stopSpeak());
     }
   }
 
@@ -165,14 +169,18 @@ class TrashPickingMiniGame extends MiniGame {
     
     if (object is SquirrelNPC) {
       object.interact();
-      TalkDialog.show(context, GameDialog.trashPickingSquirrelInteract(trashObjects.length - collectedTrash));
+      List<Say> dialog = GameDialog.trashPickingSquirrelInteract(trashObjects.length - collectedTrash);
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onFinish: () => GameDialog.stopSpeak());
       //print("Hello, im a squirrel. Please help us clean up!");
     }
 
     if (object is RecyclingBins) {
       object.interact();
       if (!isTrashPickingCompleted) {
-        TalkDialog.show(context, GameDialog.trashPickingRecyclingInteract(trashObjects.length - collectedTrash));
+        List<Say> dialog = GameDialog.trashPickingRecyclingInteract(trashObjects.length - collectedTrash);
+        GameDialog.speak(dialog[0].text[0].text!);
+        TalkDialog.show(context, dialog, onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!), onFinish: () => GameDialog.stopSpeak());
       } else {
         Future.microtask(() {
           Navigator.push(

@@ -30,16 +30,25 @@ class QuizMiniGameState extends State<QuizMiniGame> {
 
   void _showIntroDialog() {
     if (!hasShownIntroDialog) {
-      TalkDialog.show(context, GameDialog.quizIntroDialog(), onFinish: () {
-        setState(() {
-          hasShownIntroDialog = true; // Mark as shown after the dialog finishes
-        });
-      });
+      List<Say> dialog = GameDialog.quizIntroDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(
+        context,
+        dialog,
+        onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!),
+        onFinish: () {
+          GameDialog.stopSpeak();
+          setState(() => hasShownIntroDialog = true);
+        },
+      );
     }
   }
 
   void _completeQuizMiniGame() {
-    TalkDialog.show(context, GameDialog.quizEndingDialog(), backgroundColor: Colors.transparent, onFinish: () {
+    List<Say> dialog = GameDialog.quizEndingDialog();
+    GameDialog.speak(dialog[0].text[0].text!);
+    TalkDialog.show(context, dialog, backgroundColor: Colors.transparent, onFinish: () {
+      GameDialog.stopSpeak();
       widget.onQuizMiniGameCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
     });

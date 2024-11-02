@@ -109,7 +109,9 @@ class ChoppedForestMiniGame extends MiniGame {
       super.update(context, playerPosition);
 
       isStart = false;
-      TalkDialog.show(context, GameDialog.plantingIntroDialogue());
+      List<Say> dialog = GameDialog.plantingIntroDialogue();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!), onFinish: () => GameDialog.stopSpeak());
       return;
     }
     
@@ -176,7 +178,9 @@ class ChoppedForestMiniGame extends MiniGame {
     
     if (object is SquirrelNPC) {
       object.interact();
-      TalkDialog.show(context, GameDialog.plantingSquirrelDialog(numberOfHoles - plantedSeeds));
+      List<Say> dialog = GameDialog.plantingSquirrelDialog(numberOfHoles - plantedSeeds);
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onFinish: () => GameDialog.stopSpeak());
     }
   }
 }

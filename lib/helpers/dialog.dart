@@ -1,7 +1,18 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'dart:io' show Platform;
 
 class GameDialog {
+  static FlutterTts tts = FlutterTts();
+  static void speak(String text) {
+    if (Platform.isLinux) { return; }
+    tts.speak(text);
+  }
+  static void stopSpeak() {
+    if (Platform.isLinux) { return; }
+    tts.stop();
+  }
 
   //Narrator = Squirrel
   static String narrator = 'assets/images/squirrel.png';

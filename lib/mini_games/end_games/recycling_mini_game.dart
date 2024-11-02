@@ -48,17 +48,21 @@ class RecyclingMinigameState extends State<RecyclingMinigame> {
 
   void _showIntroDialog() {
     if (!hasShownIntroDialog) {
-      TalkDialog.show(context, GameDialog.recyclingIntroDialog(), onFinish: () {
-        setState(() {
-          hasShownIntroDialog = true; // Mark as shown after the dialog finishes
-        });
+      List<Say> dialog = GameDialog.recyclingIntroDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onFinish: () {
+        GameDialog.stopSpeak();
+        setState(() => hasShownIntroDialog = true);
       });
     }
   }
 
   void _completeRecyclingGame() {
     FlameAudio.play('effects/minigame_success.wav');
-    TalkDialog.show(context, GameDialog.recyclingEndingDialog(), onFinish: () {
+    List<Say> dialog = GameDialog.recyclingEndingDialog();
+    GameDialog.speak(dialog[0].text[0].text!);
+    TalkDialog.show(context, dialog, onFinish: () {
+      GameDialog.stopSpeak();
       widget.onRecyclingCompleted?.call(); // Trigger completion callback
       Navigator.pop(context); // Close the RecyclingMinigame screen after completion
     });

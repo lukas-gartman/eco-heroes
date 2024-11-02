@@ -42,7 +42,9 @@ class NiceLookingForestMiniGame extends MiniGame {
       super.update(context, playerPosition);
 
       isStart = false;
-      TalkDialog.show(context, GameDialog.plantingEndDialog(), backgroundColor: Colors.transparent, onFinish: () => super.onCompleted());
+      List<Say> dialog = GameDialog.plantingEndDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, backgroundColor: Colors.transparent, onFinish: () { super.onCompleted(); GameDialog.stopSpeak(); });
       return;
     }
   }

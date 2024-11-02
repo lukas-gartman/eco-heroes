@@ -3,6 +3,8 @@ import 'package:bonfire/util/talk/talk_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import '../helpers/dialog.dart';
+
 class CutScene extends StatefulWidget {
   final int opacity;
   final List<Say> dialog;
@@ -29,11 +31,14 @@ class CutSceneState extends State<CutScene> {
     FlameAudio.bgm.play(cityHasBeenSaved ? "background/birds.wav" : "background/rain.wav");
 
     Future.delayed(Duration.zero, () { // Wait for the widget to be built by skipping a frame.
+      GameDialog.speak(widget.dialog[0].text[0].text!);
       TalkDialog.show(
         context,
         widget.dialog,
         backgroundColor: Colors.black.withOpacity(0),
+        onChangeTalk: (index) => GameDialog.speak(widget.dialog[index].text[0].text!),
         onFinish: () {
+          GameDialog.stopSpeak();
           setState(() => opacity = 100); // Make the screen black
           FlameAudio.bgm.stop();
           Future.delayed(const Duration(seconds: 2), () { // Wait for 2 seconds for a more pleasant transition

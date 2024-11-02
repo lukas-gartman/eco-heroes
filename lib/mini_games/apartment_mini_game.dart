@@ -114,7 +114,9 @@ class ApartmentMiniGame extends MiniGame {
       super.update(context, playerPosition);
 
       isStart = false;
-      TalkDialog.show(context, GameDialog.apartmentIntroDialog());
+      List<Say> dialog = GameDialog.apartmentIntroDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!), onFinish: () => GameDialog.stopSpeak());
       return;
     }
 
@@ -124,13 +126,21 @@ class ApartmentMiniGame extends MiniGame {
       isGameCompleted = true;
       FlameAudio.play('effects/minigame_success.wav');
 
-      TalkDialog.show(context, GameDialog.apartmentEndDialog(), onFinish: () {
-        Future.microtask(() {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => QuizMiniGame(onQuizMiniGameCompleted: () => super.onCompleted())),
-          );
-        });
+      List<Say> dialog = GameDialog.apartmentEndDialog();
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(
+        context,
+        dialog,
+        onChangeTalk: (index) => GameDialog.speak(dialog[index].text[0].text!),
+        onFinish: () {
+          GameDialog.stopSpeak();
+          Future.microtask(() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => QuizMiniGame(onQuizMiniGameCompleted: () => super.onCompleted())),
+            );
+          }
+        );
       });
     }
   }
@@ -144,7 +154,9 @@ class ApartmentMiniGame extends MiniGame {
     if (object is SquirrelNPC) {
       object.interact();
       int lampsLeft = _lamps.where((lamp) => lamp.lampOn).length;
-      TalkDialog.show(context, GameDialog.apartmentSquirrelDialog(lampsLeft));
+      List<Say> dialog = GameDialog.apartmentSquirrelDialog(lampsLeft);
+      GameDialog.speak(dialog[0].text[0].text!);
+      TalkDialog.show(context, dialog, onFinish: () => GameDialog.stopSpeak());
     }
   }
 }
